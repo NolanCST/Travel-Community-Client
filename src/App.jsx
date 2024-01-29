@@ -6,7 +6,7 @@ import DetailsTravel from "./components/travel/DetailsTravel";
 import EditTravel from "./components/travel/EditTravel";
 import Register from "./components/connexion/Register";
 import Login from "./components/connexion/Login";
-import Profile from "./components/connexion/Profile";
+import Profile from "./components/profile/Profile";
 
 function App() {
    const router = createBrowserRouter([
