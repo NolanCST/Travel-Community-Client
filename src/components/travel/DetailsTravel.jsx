@@ -6,6 +6,7 @@ function DetailsTravel() {
   const [travel, setTravel] = useState([]);
   const [travelDays, setTravelDays] = useState([]);
   const [dayImages, setDayImages] = useState([]);
+  const [legislation, setLegislation] = useState([]);
 
   const getTravel = async () => {
     try {
@@ -15,6 +16,7 @@ function DetailsTravel() {
       setTravel(data.travel);
       setTravelDays(data.travelDays);
       setDayImages(data.dayImages);
+      setLegislation(data.travel[0].legislations);
     } catch (error) {
       console.log(error);
     }
@@ -36,27 +38,44 @@ function DetailsTravel() {
   };
 
   const renderTravelDays = () => {
-    console.log(travelDays);
-    console.log(dayImages[0]);
-
     return travelDays?.map((dayElement, index) => {
-      if (dayImages[0] === dayElement.id) {
-        return dayImages?.map((imageElement) => (
+      // Trouver le tableau d'images correspondant au jour actuel
+      const imagesForDay = dayImages[index];
+
+      // Vérifier s'il y a des images pour ce jour
+      if (imagesForDay && imagesForDay.length > 0) {
+        return (
           <div key={index}>
             <p>{dayElement.title_day}</p>
             <p>{dayElement.description_day}</p>
-            <img src={imageElement.image} alt={imageElement.alt} />
+            {imagesForDay.map((imageElement, imageIndex) => (
+              <div key={imageIndex}>
+                <img src={imageElement.image} alt={imageElement.alt} />
+              </div>
+            ))}
           </div>
-        ));
+        );
+      } else {
+        // Retourner null si aucune correspondance trouvée
+        return null;
       }
-      return null; // Ajout d'un retour null pour les jours sans correspondance
     });
+  };
+
+  const renderLegislation = () => {
+    return legislation?.map((element, index) => (
+      <div key={index}>
+        <p>{element.country}</p>
+        <p>{element.rules}</p>
+      </div>
+    ));
   };
 
   return (
     <div>
       {renderTravel()}
       {renderTravelDays()}
+      {renderLegislation()}
     </div>
   );
 }
