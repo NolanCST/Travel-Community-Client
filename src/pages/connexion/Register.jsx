@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Country from "../../components/api/Countries";
+import Country from "../../components/api/Country";
 
 function Register() {
   const [firstname, setFirstname] = useState("");
@@ -53,6 +53,7 @@ function Register() {
         <input id="firstname" type="text" name="firstname" max="50" value={lastname} onChange={(e) => setLastname(e.target.value)} required />
         <label htmlFor="pseudo">Pseudo:</label>
         <input id="pseudo" type="text" name="pseudo" max="30" value={pseudo} onChange={(e) => setPseudo(e.target.value)} required />
+        <label htmlFor="country">Pays de résidence:</label>
         <Country selectedCountry={country} onCountryChange={handleCountryChange} />
         <label htmlFor="email">Email:</label>
         <input id="email" type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />

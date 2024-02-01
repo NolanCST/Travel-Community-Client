@@ -27,7 +27,6 @@ function Country({ selectedCountry, onCountryChange }) {
 
   return (
     <>
-      <label htmlFor="country">Pays de résidence:</label>
       <select id="country" type="text" name="country" max="50" value={selectedCountry} onChange={(e) => onCountryChange(e.target.value)} required>
         <option value="">Choisissez votre pays</option>
         {renderListCountries()}

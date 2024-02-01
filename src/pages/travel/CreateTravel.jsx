@@ -1,7 +1,10 @@
 import { useState } from "react";
-import Country from "../../components/api/Countries";
+import Country from "../../components/api/Country";
+import { useStatus } from "../../components/status/Status";
+import { useNavigate } from "react-router-dom";
 
 function CreateTravel() {
+  const { idUser } = useStatus;
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -9,10 +12,11 @@ function CreateTravel() {
     days: "",
     country: "",
   });
-  const [country, setCountry] = useState([]);
+  const [country, setCountry] = useState("");
   const [titleDay, setTitleDay] = useState([]);
   const [descriptionDay, setDescriptionDay] = useState([]);
   const [imageDay, setImageDay] = useState([]);
+  const navigate = useNavigate();
 
   const handleCountryChange = (selectedCountry) => {
     setCountry(selectedCountry);
@@ -54,6 +58,7 @@ function CreateTravel() {
     formDataToSend.append("image", formData.image);
     formDataToSend.append("days", formData.days);
     formDataToSend.append("country", formData.country);
+    formDataToSend.append("user_id", idUser);
 
     try {
       let options = {
@@ -61,11 +66,16 @@ function CreateTravel() {
         body: formDataToSend,
       };
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/travels`, options);
-
-      const data = await response.json();
-
-      console.log(data);
+      await fetch(`${import.meta.env.VITE_API_URL}/travels`, options)
+        .then((response) => {
+          if (response.ok) {
+            console.log(response);
+            // navigate("/profile");
+          } else {
+            throw new Error(`Erreur lors de la requête : ${response.status}`);
+          }
+        })
+        .catch((error) => console.error("Erreur lors de la requête :", error));
     } catch (error) {
       console.log(error);
     }
@@ -82,7 +92,7 @@ function CreateTravel() {
         <input type="file" id="image" name="image" onChange={handleFile} />
         <label htmlFor="days">Nombre de jours</label>
         <input type="number" id="days" name="days" onChange={handleChange} required />
-        <label>Destination</label>
+        <label htmlFor="country">Destination</label>
         <Country selectedCountry={country} onCountryChange={handleCountryChange} />
         {renderTravelDay()}
         <input type="submit" />
