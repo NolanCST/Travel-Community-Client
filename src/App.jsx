@@ -1,12 +1,13 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./components/home/Home";
-import CreateTravel from "./components/travel/CreateTravel";
-import DetailsTravel from "./components/travel/DetailsTravel";
-import EditTravel from "./components/travel/EditTravel";
-import Register from "./components/connexion/Register";
-import Login from "./components/connexion/Login";
-import Profile from "./components/profile/Profile";
+import Home from "./pages/home/Home";
+import CreateTravel from "./pages/travel/CreateTravel";
+import DetailsTravel from "./pages/travel/DetailsTravel";
+import EditTravel from "./pages/travel/EditTravel";
+import Register from "./pages/connexion/Register";
+import Login from "./pages/connexion/Login";
+import Profile from "./pages/profile/profile";
+import { StatusProvider } from "./components/status/Status";
 
 function App() {
    const router = createBrowserRouter([
@@ -41,7 +42,9 @@ function App() {
    ]);
    return (
       <>
-         <RouterProvider router={router} />
+         <StatusProvider>
+            <RouterProvider router={router} />
+         </StatusProvider>
       </>
    );
 }

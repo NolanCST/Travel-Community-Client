@@ -1,36 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Country from "../../components/api/Country";
 
 function Register() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [pseudo, setPseudo] = useState("");
+  const [country, setCountry] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [country, setCountry] = useState("");
-  const [listCountries, setListCountries] = useState([]);
   const navigate = useNavigate();
 
-  const getListCountries = async () => {
-    try {
-      const response = await fetch("https://api.thecompaniesapi.com/v1/locations/countries");
-      const data = await response.json();
-      setListCountries(data.countries);
-    } catch (error) {
-      console.error("Erreur lors de la requête :", error);
-    }
-  };
-
-  useEffect(() => {
-    getListCountries();
-  }, []);
-
-  const renderListCountries = () => {
-    return listCountries?.map((element) => (
-      <option key={element.code} value={element.name}>
-        {element.nameFr}
-      </option>
-    ));
+  const handleCountryChange = (selectedCountry) => {
+    setCountry(selectedCountry);
   };
 
   const handleRegister = async (e) => {
@@ -72,10 +54,7 @@ function Register() {
         <label htmlFor="pseudo">Pseudo:</label>
         <input id="pseudo" type="text" name="pseudo" max="30" value={pseudo} onChange={(e) => setPseudo(e.target.value)} required />
         <label htmlFor="country">Pays de résidence:</label>
-        <select id="country" type="text" name="country" max="50" value={country} onChange={(e) => setCountry(e.target.value)} required>
-          <option value="">Choisissez votre pays</option>
-          {renderListCountries()}
-        </select>
+        <Country selectedCountry={country} onCountryChange={handleCountryChange} />
         <label htmlFor="email">Email:</label>
         <input id="email" type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <label htmlFor="password">Mot de passe:</label>
