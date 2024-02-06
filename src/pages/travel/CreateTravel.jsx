@@ -127,8 +127,6 @@ function CreateTravel() {
             formDataToSend.append(`travelDays[${idx}][images][]`, img);
          });
       });
-      console.log("test", formData, travelDays, JSON.stringify(travelDays));
-      // formDataToSend.append("travelDays", JSON.stringify(travelDays));
       formDataToSend.append("user_id", idUser);
 
       try {
@@ -140,8 +138,7 @@ function CreateTravel() {
          await fetch(`${import.meta.env.VITE_API_URL}/travels`, options)
             .then((response) => {
                if (response.ok) {
-                  console.log(response);
-                  // navigate("/profile");
+                  navigate("/profile");
                } else {
                   throw new Error(`Erreur lors de la requête : ${response.status}`);
                }
