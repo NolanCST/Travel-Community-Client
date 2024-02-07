@@ -10,43 +10,43 @@ import Profile from "./pages/profile/profile";
 import { StatusProvider } from "./components/status/Status";
 
 function App() {
-   const router = createBrowserRouter([
-      {
-         path: "/",
-         element: <Home />,
-      },
-      {
-         path: "/create",
-         element: <CreateTravel />,
-      },
-      {
-         path: "/details/:id",
-         element: <DetailsTravel />,
-      },
-      {
-         path: "/edit/:id",
-         element: <EditTravel />,
-      },
-      {
-         path: "/register",
-         element: <Register />,
-      },
-      {
-         path: "/login",
-         element: <Login />,
-      },
-      {
-         path: "/profile",
-         element: <Profile />,
-      },
-   ]);
-   return (
-      <>
-         <StatusProvider>
-            <RouterProvider router={router} />
-         </StatusProvider>
-      </>
-   );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "/create",
+      element: <CreateTravel />,
+    },
+    {
+      path: "/details/:id",
+      element: <DetailsTravel />,
+    },
+    {
+      path: "/edit/:id",
+      element: <EditTravel />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/profile",
+      element: <Profile />,
+    },
+  ]);
+  return (
+    <>
+      <StatusProvider>
+        <RouterProvider router={router} />
+      </StatusProvider>
+    </>
+  );
 }
 
 export default App;

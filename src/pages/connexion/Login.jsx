@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/layouts/NavBar";
 
 function Login() {
   const [loginInput, setLogin] = useState({
@@ -46,6 +47,9 @@ function Login() {
 
   return (
     <>
+      <nav>
+        <Navbar />
+      </nav>
       <form onSubmit={loginSubmit}>
         <label htmlFor="email">Email:</label>
         <input id="email" type="email" name="email" value={loginInput.email} onChange={handleInput} required />

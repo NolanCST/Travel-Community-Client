@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import Navbar from "../../components/layouts/NavBar";
 
 function DetailsTravel() {
   const travelId = useLocation().state;
@@ -72,11 +73,16 @@ function DetailsTravel() {
   };
 
   return (
-    <div>
-      {renderTravel()}
-      {renderTravelDays()}
-      {renderLegislation()}
-    </div>
+    <>
+      <nav>
+        <Navbar />
+      </nav>
+      <div>
+        {renderTravel()}
+        {renderTravelDays()}
+        {renderLegislation()}
+      </div>
+    </>
   );
 }
 
