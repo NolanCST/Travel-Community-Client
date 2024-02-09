@@ -1,0 +1,89 @@
+/* Navbar styles */
+.navTag {
+   background-color: #2c3e50; /* Change the background color to fit your design */
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 1rem;
+}
+
+.navbar {
+   display: flex;
+   align-items: center;
+}
+
+.navbarListLeft,
+.navbarListRight {
+   list-style: none;
+   display: flex;
+   align-items: center;
+   margin: 0;
+   padding: 0;
+}
+
+.navbarListLeft li,
+.navbarListRight li {
+   margin-right: 20px;
+}
+
+.link {
+   text-decoration: none;
+   color: #ecf0f1; /* Change the text color to fit your design */
+   font-weight: bold;
+   font-size: 1rem;
+   transition: color 0.3s ease;
+}
+
+.link:hover {
+   color: #3498db; /* Change the hover color to fit your design */
+}
+
+/* Hamburger menu styles */
+.hamburgerMenu {
+   display: none; /* Hide by default for larger screens */
+   flex-direction: column;
+   cursor: pointer;
+}
+
+.line {
+   height: 4px;
+   width: 30px;
+   background-color: #ecf0f1; /* Change the line color to fit your design */
+   margin: 6px 0;
+   transition: background-color 0.3s ease;
+}
+
+.line.active {
+   background-color: #3498db; /* Change the active line color to fit your design */
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+   .navbarListRight {
+      display: none; /* Hide the right list for smaller screens */
+   }
+
+   .hamburgerMenu {
+      display: flex;
+   }
+
+   .navTag.open {
+      flex-direction: column;
+      align-items: flex-start;
+   }
+
+   .navbar {
+      flex-direction: column;
+      width: 100%;
+      text-align: center;
+   }
+
+   .navbarListLeft {
+      margin-bottom: 20px;
+   }
+
+   .navbarListLeft li {
+      margin-right: 0;
+      margin-bottom: 10px;
+   }
+}
