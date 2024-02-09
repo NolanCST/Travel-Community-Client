@@ -33,7 +33,7 @@ function DetailsTravel() {
         <p>{element.title}</p>
         <p>{element.country}</p>
         <p>Jours: {element.days}</p>
-        <img src={element.image} alt="image" />
+        <img src={element.image} alt={element.alt} />
       </div>
     ));
   };
