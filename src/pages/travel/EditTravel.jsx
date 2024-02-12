@@ -72,15 +72,13 @@ function EditTravel() {
         body: formDataToSend,
       };
 
-      await fetch(`${import.meta.env.VITE_API_URL}/travels/${travelId}`, options)
-        .then((response) => {
-          if (response.ok) {
-            // navigate("/profile");
-          } else {
-            throw new Error(`Erreur lors de la requête : ${response.status}`);
-          }
-        })
-        .catch((error) => console.error("Erreur lors de la requête :", error));
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/travels/${travelId}`, options);
+
+      if (response.ok) {
+        // navigate("/profile");
+      } else {
+        throw new Error(`Erreur lors de la requête : ${response.status}`);
+      }
     } catch (error) {
       console.log(error);
     }
