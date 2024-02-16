@@ -33,10 +33,9 @@ function Navbar() {
 
             if (response.ok) {
                // Supprime les infos de connexion du localStorage
-               localStorage.removeItem("@email");
                localStorage.removeItem("@token");
-               // Redirige l'utilisateur vers la page de connexion
-               navigate("/login");
+               // Redirige l'utilisateur vers l'accueil
+               navigate("/");
             } else {
                throw new Error(`Erreur lors de la requête : ${response.status}`);
             }
