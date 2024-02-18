@@ -1,4 +1,21 @@
-body {
-   margin: 0;
-   padding: 0;
+* {
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: gotham-black;
+  src: url("../../public/fonts/Gotham-Font/Gotham-Black.otf");
+}
+
+@font-face {
+  font-family: gotham-light;
+  src: url("../../public/fonts/Gotham-Font/Gotham-Light.otf");
+}
+
+:root {
+  --clr-1: #202020;
+  --clr-2: #504128;
+  --clr-3: #ff8c00;
+  --clr-4: #fdf6ea;
 }

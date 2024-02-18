@@ -1,0 +1,207 @@
+/*********************
+        HOME
+*********************/
+
+.homeBtn {
+  background-color: #ff8c00;
+  font-size: 15px;
+  text-decoration: none;
+  font-family: gotham-black;
+  color: var(--clr-4);
+  width: 200px;
+  height: 40px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*********************
+        WELCOME
+*********************/
+
+.welcome {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.welVideo {
+  position: absolute;
+  z-index: -1;
+  height: 80vh;
+}
+
+.company {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.logo {
+  width: 30px;
+  height: 30px;
+}
+
+.name {
+  font-family: "Fira Sans", sans-serif;
+  font-size: large;
+  color: var(--clr-4);
+}
+
+.welTitle {
+  font-family: "Fira Sans", sans-serif;
+  font-size: 35px;
+  color: var(--clr-4);
+  text-align: center;
+}
+
+/*********************
+    PRESENTATION
+*********************/
+
+.presentation {
+  width: 100vw;
+  background-color: var(--clr-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2% 0;
+}
+
+.part1 {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+}
+
+.part1 .logo {
+  padding-bottom: 3%;
+}
+
+.preTitle {
+  font-family: "Fira Sans", sans-serif;
+  padding-bottom: 3%;
+  color: var(--clr-1);
+}
+
+.preDescription {
+  font-family: gotham-light;
+  color: var(--clr-1);
+  width: 95%;
+  padding-bottom: 8%;
+}
+
+.preBtn {
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  padding-bottom: 3%;
+}
+
+.preImage {
+  width: 95%;
+}
+
+/*********************
+    TRAVELS
+*********************/
+
+.travels {
+  width: 100vw;
+  background-color: var(--clr-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5% 0;
+}
+
+.traTitle {
+  font-family: "Fira Sans", sans-serif;
+  padding-bottom: 5%;
+  color: var(--clr-4);
+}
+
+.traCard {
+  width: 75%;
+  height: 350px;
+  background-color: var(--clr-4);
+  margin-bottom: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardImage {
+  width: 100%;
+  min-height: 50%;
+}
+
+.cardInfos {
+  display: flex;
+  flex-direction: column;
+  margin: 5% 0;
+  width: 95%;
+}
+
+.cardTitle {
+  font-family: "Fira Sans", sans-serif;
+  padding-bottom: 3%;
+  color: var(--clr-1);
+}
+
+.cardCountry,
+.cardDays {
+  font-family: gotham-light;
+  padding-bottom: 3%;
+  color: var(--clr-1);
+}
+
+/*********************
+    ADVANTAGES
+*********************/
+
+.advantages {
+  width: 100vw;
+  background-color: var(--clr-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5% 0;
+}
+
+.advTitle {
+  text-align: center;
+  font-family: "Fira Sans", sans-serif;
+  padding-bottom: 5%;
+  color: var(--clr-1);
+}
+
+.advInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5% 0;
+  width: 95%;
+}
+
+.infoImage {
+  width: 40%;
+  margin-bottom: 5%;
+}
+
+.infoTitle {
+  width: 80%;
+  text-align: start;
+  font-family: "Fira Sans", sans-serif;
+  margin-bottom: 3%;
+}
+
+.infoDescription {
+  width: 80%;
+  text-align: start;
+  font-family: gotham-light;
+}
