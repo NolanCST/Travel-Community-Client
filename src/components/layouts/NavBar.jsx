@@ -1,18 +1,25 @@
 import { useStatus } from "../status/Status";
 import { useNavigate } from "react-router-dom";
 import "./navbar.css";
-import { useState } from "react";
-// import logo from "./Corgi_guge-removebg-preview.png";
+import { useEffect, useState } from "react";
 
 function Navbar() {
   const { status } = useStatus();
   const token = localStorage.getItem("@token");
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
+  const [online, setOnline] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  const handleOnline = () => {
+    if (status === 0 || status === 1) {
+      setOnline(true);
+    } else {
+      setOnline(false);
+    }
   };
+
+  useEffect(() => {
+    handleOnline();
+  });
 
   const handleLogout = async () => {
     const isConfirmed = window.confirm("Êtes-vous sûr de vouloir vous déconnecter ?");
@@ -27,15 +34,12 @@ function Navbar() {
           },
         };
 
-        // Requête vers API pour révoquer le token
         const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, options);
         console.log(response);
 
         if (response.ok) {
-          // Supprime les infos de connexion du localStorage
           localStorage.removeItem("@token");
-          // Redirige l'utilisateur vers l'accueil
-          navigate("/");
+          navigate("/login");
         } else {
           throw new Error(`Erreur lors de la requête : ${response.status}`);
         }
@@ -55,21 +59,44 @@ function Navbar() {
           <span class="line line3"></span>
         </div>
         <div class="menu-items">
-          <li>
-            <a href="#">Accueil</a>
-          </li>
-          <li>
-            <a href="#">Découvir</a>
-          </li>
-          <li>
-            <a href="#">Partager un voyage</a>
-          </li>
-          <li>
-            <a href="#">Profil</a>
-          </li>
-          <li>
-            <a href="#">contact</a>
-          </li>
+          <div>
+            <li>
+              <a href="/">Accueil</a>
+            </li>
+            <li>
+              <a href="#">Découvir</a>
+            </li>
+            {online ? (
+              <>
+                <li>
+                  <a href="/create">Partager un voyage</a>
+                </li>
+                <li>
+                  <a href="#">Profil</a>
+                </li>
+              </>
+            ) : null}
+
+            <li>
+              <a href="#">contact</a>
+            </li>
+          </div>
+          {online ? (
+            <li>
+              <a href="#" onClick={handleLogout}>
+                Se déconnecter
+              </a>
+            </li>
+          ) : (
+            <div>
+              <li>
+                <a href="#">S'inscrire</a>
+              </li>
+              <li>
+                <a href="#">Se connecter</a>
+              </li>
+            </div>
+          )}
         </div>
       </div>
     </div>

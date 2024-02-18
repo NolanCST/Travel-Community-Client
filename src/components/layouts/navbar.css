@@ -10,13 +10,6 @@
   margin: auto;
 }
 
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 62px;
-}
-
 .navbar .menu-items {
   display: flex;
 }
@@ -27,7 +20,7 @@
 
 .navbar .nav-container a {
   text-decoration: none;
-  color: var(--clr-1);
+  color: var(--clr-4);
   font-weight: 500;
   font-size: 1.2rem;
   padding: 0.7rem;
@@ -102,6 +95,7 @@
   padding-left: 50px;
   transition: transform 0.5s ease-in-out;
   text-align: center;
+  gap: 250px;
 }
 
 .navbar .menu-items li {
