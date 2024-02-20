@@ -1,37 +1,37 @@
 import { useEffect, useState } from "react";
 
 function Country({ selectedCountry, onCountryChange, country }) {
-   const [listCountries, setListCountries] = useState([]);
-   const getListCountries = async () => {
-      try {
-         const response = await fetch("https://api.thecompaniesapi.com/v1/locations/countries");
-         const data = await response.json();
-         setListCountries(data.countries);
-      } catch (error) {
-         console.error("Erreur lors de la requête :", error);
-      }
-   };
+  const [listCountries, setListCountries] = useState([]);
+  const getListCountries = async () => {
+    try {
+      const response = await fetch("https://api.thecompaniesapi.com/v1/locations/countries");
+      const data = await response.json();
+      setListCountries(data.countries);
+    } catch (error) {
+      console.error("Erreur lors de la requête :", error);
+    }
+  };
 
-   useEffect(() => {
-      getListCountries();
-   }, []);
+  useEffect(() => {
+    getListCountries();
+  }, []);
 
-   const renderListCountries = () => {
-      return listCountries?.map((element) => (
-         <option key={element.code} value={element.name}>
-            {element.nameFr}
-         </option>
-      ));
-   };
+  const renderListCountries = () => {
+    return listCountries?.map((element) => (
+      <option key={element.code} value={element.name}>
+        {element.nameFr}
+      </option>
+    ));
+  };
 
-   return (
-      <>
-         <select id="country" type="text" name="country" max="50" value={country ?? selectedCountry} onChange={(e) => onCountryChange(e.target.value)} required>
-            <option value="">Choisissez votre pays</option>
-            {renderListCountries()}
-         </select>
-      </>
-   );
+  return (
+    <>
+      <select id="country" type="text" name="country" max="50" defaultValue={country ?? selectedCountry} onChange={(e) => onCountryChange(e.target.value)} required>
+        <option value="">Choisissez votre pays</option>
+        {renderListCountries()}
+      </select>
+    </>
+  );
 }
 
 export default Country;
