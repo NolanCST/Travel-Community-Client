@@ -50,7 +50,7 @@ function Login() {
       <nav>
         <Navbar />
       </nav>
-      <form onSubmit={loginSubmit}>
+      <form className="loginForm" onSubmit={loginSubmit}>
         <label htmlFor="email">Email:</label>
         <input id="email" type="email" name="email" value={loginInput.email} onChange={handleInput} required />
         <span>{loginInput.error_list.email}</span>
