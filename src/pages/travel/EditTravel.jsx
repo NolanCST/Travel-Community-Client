@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Country from "../../components/api/Country";
 import Navbar from "../../components/layouts/NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -10,20 +9,12 @@ function EditTravel() {
   const [newImageTravel, setNewImageTravel] = useState("");
   const [travelDays, setTravelDays] = useState([]);
   const [dayImages, setDayImages] = useState([]);
-  const [country, setCountry] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     image: {},
-    days: "",
-    country: "",
   });
   const navigate = useNavigate();
-
-  const handleCountryChange = (selectedCountry) => {
-    setCountry(selectedCountry);
-    setFormData({ ...formData, country: selectedCountry });
-  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -81,9 +72,53 @@ function EditTravel() {
     setTravelDays(updatedDays);
   };
 
+  const handleDeleteImgDay = async (id) => {
+    try {
+      let options = {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/imgDay/${id}`, options);
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleImageDayChange = (id, e) => {
+    const file = e.target.files[0];
+
+    const updatedDays = travelDays.map((element) => {
+      if (element.id === id) {
+        console.log(element);
+        if (!element.images || !element.images.some((img) => img.name === file.name)) {
+          element.images = [...(element.images || []), file];
+        }
+      }
+      return element;
+    });
+    setTravelDays(updatedDays);
+
+    e.target.value = null;
+  };
+
+  const handleDeleteImage = (dayIndex, imageIndex) => {
+    setTravelDays((prevDays) => {
+      const updatedDays = [...prevDays];
+      updatedDays[dayIndex].images.splice(imageIndex, 1);
+      return updatedDays;
+    });
+  };
+
   const renderTravelDays = () => {
     return travelDays?.map((element, index) => {
       const imagesForDay = dayImages[index];
+      console.log(element);
       return (
         <div key={index}>
           <label htmlFor={`title_day_${element.id}`}>Titre du jour</label>
@@ -91,14 +126,34 @@ function EditTravel() {
           <label htmlFor={`description_day_${element.id}`}>Description du jour</label>
           <textarea name={`description_day_${element.id}`} id={`description_day_${element.id}`} cols="30" rows="10" defaultValue={element.description_day} onChange={(e) => handleDescriptionDayChange(element.id, e.target.value)}></textarea>
           <label htmlFor={`image_day_${element.id}`}>Images du jour</label>
-          <input type="file" id={`image_day_${element.id}`} name={`image_day_${element.id}`} onChange={(e) => handleImageDayChange(i, e)} />
-          {imagesForDay.map((imageElement, imageIndex) => {
+          <input type="file" id={`image_day_${element.id}`} name={`image_day_${element.id}`} onChange={(e) => handleImageDayChange(element.id, e)} />
+          {imagesForDay?.map((imageElement, imageIndex) => {
             return (
               <div key={imageIndex}>
                 <img src={imageElement.image} alt={imageElement.alt} />
+                <button
+                  onClick={() => {
+                    handleDeleteImgDay(imageElement.id);
+                  }}
+                >
+                  Supprimer
+                </button>
               </div>
             );
           })}
+          {element.images && (
+            <div>
+              <strong>Images ajoutées :</strong>
+              {element.images.map((image, index) => (
+                <div key={index}>
+                  {image.name}
+                  <button type="button" onClick={() => handleDeleteImage(element.id, index)}>
+                    Supprimer
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       );
     });
@@ -110,14 +165,15 @@ function EditTravel() {
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
-    formDataToSend.append("days", formData.days);
     formDataToSend.append("image", formData.image);
-    formDataToSend.append("country", formData.country);
     travelDays.map((element, idx) => {
-      console.log(element);
       formDataToSend.append(`travelDays[${idx}][id]`, element.id);
       formDataToSend.append(`travelDays[${idx}][title_day]`, element.title_day);
       formDataToSend.append(`travelDays[${idx}][description_day]`, element.description_day);
+      element.images.map((img, idx) => {
+        console.log(img);
+        formDataToSend.append(`travelDays[${idx}][images][]`, img);
+      });
     });
     formDataToSend.append("_method", "PUT");
 
@@ -154,10 +210,8 @@ function EditTravel() {
         <textarea name="description" id="description" cols="30" rows="10" defaultValue={travel.description} onChange={handleChange} required></textarea>
         <label htmlFor="image">Image</label>
         <input type="file" id="image" name="image" onChange={handleFileChange} />
-        <label htmlFor="days">Nombre de jours</label>
-        <input type="number" id="days" name="days" defaultValue={travel.days} onChange={handleChange} required />
-        <label htmlFor="country">Destination</label>
-        <Country country={travel.country} selectedCountry={country} onCountryChange={handleCountryChange} />
+        <p>Nombre de jours: {travel.days}</p>
+        <p>Destination: {travel.country}</p>
         <label htmlFor="imageTravel"></label>
         <img id="imageTravel" src={newImageTravel ? newImageTravel : travel.image} alt={travel.alt} />
         {renderTravelDays()}
