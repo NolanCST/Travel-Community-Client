@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Country from "../../components/api/Country";
 import Navbar from "../../components/layouts/NavBar";
+import "./register.css";
 
 function Register() {
   const [firstname, setFirstname] = useState("");
@@ -50,7 +51,7 @@ function Register() {
       <nav>
         <Navbar />
       </nav>
-      <form action="" method="post">
+      <form className="registerForm" method="post">
         <label htmlFor="lastname">Nom:</label>
         <input id="lastname" type="text" name="lastname" max="50" value={firstname} onChange={(e) => setFirstname(e.target.value)} required />
         <label htmlFor="firstname">Prénom:</label>
