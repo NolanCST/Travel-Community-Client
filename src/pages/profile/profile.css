@@ -1,17 +1,15 @@
-.profile-container {
-  max-width: 800px;
+.profileContainer {
   padding-top: 60px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Profile details styles */
-.profile-details {
-  margin-bottom: 20px;
-}
-
-.profile-details p {
-  margin-bottom: 10px;
+.profilLabel {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
 }
 
 /* Travel list styles */
