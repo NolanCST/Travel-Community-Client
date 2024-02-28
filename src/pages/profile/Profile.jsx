@@ -90,25 +90,28 @@ function Profile() {
       <nav>
         <Navbar />
       </nav>
+      <div className="profileHeader">
+        <h1 className="headerTitle">Profil</h1>
+      </div>
       <div className="profileContainer">
-        <label className="profilLabel" htmlFor="lastname">
+        <label className="profileLabel" htmlFor="lastname">
           Nom :
-          <input className="profilInput" id="lastname" defaultValue={user.lastname} />
+          <input className="profileInput" id="lastname" defaultValue={user.lastname} />
         </label>
-        <label className="profilLabel" htmlFor="firstname">
+        <label className="profileLabel" htmlFor="firstname">
           Prénom :
-          <input className="profilInput" id="firstname" defaultValue={user.firstname} />
+          <input className="profileInput" id="firstname" defaultValue={user.firstname} />
         </label>
-        <label className="profilLabel" htmlFor="pseudo">
+        <label className="profileLabel" htmlFor="pseudo">
           Pseudo :
-          <input className="profilInput" id="pseudo" defaultValue={user.pseudo} />
+          <input className="profileInput" id="pseudo" defaultValue={user.pseudo} />
         </label>
-        <label className="profilLabel" htmlFor="email">
+        <label className="profileLabel" htmlFor="email">
           Email :
-          <input className="profilInput" id="email" defaultValue={user.email} />
+          <input className="profileInput" id="email" defaultValue={user.email} />
         </label>
-        <label className="profilLabel">
-          Pays :<p className="profilInput">{user.country}</p>
+        <label className="profileLabel">
+          Pays :<p className="profileInput">{user.country}</p>
         </label>
       </div>
       <div className="travel-list">{renderTravels()}</div>

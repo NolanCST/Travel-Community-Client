@@ -1,15 +1,37 @@
-.profileContainer {
-  padding-top: 60px;
+.profileHeader {
+  width: 100vw;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--clr-4);
+}
+
 /* Profile details styles */
-.profilLabel {
+.profileLabel {
   display: flex;
   flex-direction: column;
   width: 90%;
+  margin: 30px 0 3% 0;
+  font-family: gotham-black;
+}
+.profileInput {
+  width: 95%;
+  height: 30px;
+  border-radius: 10px;
+  border: 0.1px solid var(--clr-1);
+  box-shadow: 2px 2px var(--clr-1);
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  margin-top: 3%;
 }
 
 /* Travel list styles */
