@@ -1,0 +1,63 @@
+.profile-container {
+  max-width: 800px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile details styles */
+.profile-details {
+  margin-bottom: 20px;
+}
+
+.profile-details p {
+  margin-bottom: 10px;
+}
+
+/* Travel list styles */
+.travel-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.travel-item {
+  width: calc(33.33% - 20px);
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.travel-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* Edit and delete button styles */
+.edit-button,
+.delete-button {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+}
+
+.edit-button {
+  background-color: #2ecc71;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  margin-left: 10px;
+}

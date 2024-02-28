@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 
-function Country({ selectedCountry, onCountryChange }) {
+function Country({ selectedCountry, onCountryChange, country }) {
   const [listCountries, setListCountries] = useState([]);
-
   const getListCountries = async () => {
     try {
       const response = await fetch("https://api.thecompaniesapi.com/v1/locations/countries");
@@ -27,7 +26,7 @@ function Country({ selectedCountry, onCountryChange }) {
 
   return (
     <>
-      <select id="country" type="text" name="country" max="50" value={selectedCountry} onChange={(e) => onCountryChange(e.target.value)} required>
+      <select id="country" type="text" name="country" max="50" defaultValue={country ?? selectedCountry} onChange={(e) => onCountryChange(e.target.value)} required>
         <option value="">Choisissez votre pays</option>
         {renderListCountries()}
       </select>

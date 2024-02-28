@@ -3,8 +3,10 @@ import Country from "../../components/api/Country";
 import { useStatus } from "../../components/status/Status";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/layouts/NavBar";
+import "./createTravel.css";
 
 function CreateTravel() {
+  const token = localStorage.getItem("@token");
   const { idUser } = useStatus();
   const [formData, setFormData] = useState({
     title: "",
@@ -15,7 +17,6 @@ function CreateTravel() {
   });
   const [country, setCountry] = useState("");
   const [travelDays, setTravelDays] = useState([]);
-
   const navigate = useNavigate();
 
   const handleCountryChange = (selectedCountry) => {
@@ -86,6 +87,14 @@ function CreateTravel() {
     e.target.value = null;
   };
 
+  const handleDeleteImage = (dayIndex, imageIndex) => {
+    setTravelDays((prevDays) => {
+      const updatedDays = [...prevDays];
+      updatedDays[dayIndex].images.splice(imageIndex, 1);
+      return updatedDays;
+    });
+  };
+
   const renderTravelDay = () => {
     const travelDayElements = [];
     for (let i = 0; i < formData.days; i++) {
@@ -101,7 +110,12 @@ function CreateTravel() {
             <div>
               <strong>Images ajoutées :</strong>
               {travelDays[i].images.map((image, index) => (
-                <div key={index}>{image.name}</div>
+                <div key={index}>
+                  {image.name}
+                  <button type="button" onClick={() => handleDeleteImage(i, index)}>
+                    Supprimer
+                  </button>
+                </div>
               ))}
             </div>
           )}
@@ -123,7 +137,7 @@ function CreateTravel() {
     formDataToSend.append("country", formData.country);
     travelDays.map((element, idx) => {
       formDataToSend.append(`travelDays[${idx}][titleDay]`, element.titleDay);
-      formDataToSend.append(`travelDays[${idx}][descriptionDay]`, element.titleDay);
+      formDataToSend.append(`travelDays[${idx}][descriptionDay]`, element.descriptionDay);
       element.images.map((img, idx) => {
         formDataToSend.append(`travelDays[${idx}][images][]`, img);
       });
@@ -133,18 +147,19 @@ function CreateTravel() {
     try {
       let options = {
         method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
         body: formDataToSend,
       };
 
-      await fetch(`${import.meta.env.VITE_API_URL}/travels`, options)
-        .then((response) => {
-          if (response.ok) {
-            navigate("/profile");
-          } else {
-            throw new Error(`Erreur lors de la requête : ${response.status}`);
-          }
-        })
-        .catch((error) => console.error("Erreur lors de la requête :", error));
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/travels`, options);
+      console.log(response);
+      if (response.ok) {
+        navigate("/profile");
+      } else {
+        throw new Error(`Erreur lors de la requête : ${response.status}`);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -155,17 +170,29 @@ function CreateTravel() {
       <nav>
         <Navbar />
       </nav>
-      <form encType="multipart/form-data" onSubmit={handleSubmit}>
-        <label htmlFor="title">Titre</label>
-        <input type="text" id="title" name="title" max="50" onChange={handleChange} required />
-        <label htmlFor="description">Description</label>
-        <textarea name="description" id="description" cols="30" rows="10" onChange={handleChange} required></textarea>
-        <label htmlFor="image">Image</label>
-        <input type="file" id="image" name="image" onChange={handleFile} />
-        <label htmlFor="days">Nombre de jours</label>
-        <input type="number" id="days" name="days" onChange={handleChange} required />
-        <label htmlFor="country">Destination</label>
-        <Country selectedCountry={country} onCountryChange={handleCountryChange} />
+      <form className="travelForm" encType="multipart/form-data" onSubmit={handleSubmit}>
+        <div className="travelForm1">
+          <label className="travelFormLabel" htmlFor="title">
+            Titre
+          </label>
+          <input className="travelFormInput" type="text" id="title" name="title" max="50" onChange={handleChange} required />
+          <label className="travelFormLabel" htmlFor="description">
+            Description
+          </label>
+          <textarea className="travelFormArea" name="description" id="description" cols="30" rows="10" onChange={handleChange} required></textarea>
+          <label className="travelFormLabel" htmlFor="image">
+            Image
+          </label>
+          <input type="file" id="image" name="image" onChange={handleFile} />
+          <label className="travelFormLabel" htmlFor="days">
+            Nombre de jours
+          </label>
+          <input className="travelFormInput" type="number" id="days" name="days" min="0" onChange={handleChange} required />
+          <label className="travelFormLabel" htmlFor="country">
+            Destination
+          </label>
+          <Country selectedCountry={country} onCountryChange={handleCountryChange} />
+        </div>
         {renderTravelDay()}
         <input type="submit" />
       </form>

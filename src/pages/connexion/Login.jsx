@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/layouts/NavBar";
+import "./login.css";
 
 function Login() {
   const [loginInput, setLogin] = useState({
@@ -35,7 +36,6 @@ function Login() {
 
     if (data.status === 200) {
       localStorage.setItem("@token", data.token);
-      localStorage.setItem("@email", data.email);
       alert(data.message);
       navigate("/");
     } else if (data.status === 401) {
@@ -50,7 +50,7 @@ function Login() {
       <nav>
         <Navbar />
       </nav>
-      <form onSubmit={loginSubmit}>
+      <form className="loginForm" onSubmit={loginSubmit}>
         <label htmlFor="email">Email:</label>
         <input id="email" type="email" name="email" value={loginInput.email} onChange={handleInput} required />
         <span>{loginInput.error_list.email}</span>

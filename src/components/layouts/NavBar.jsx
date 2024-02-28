@@ -1,106 +1,106 @@
 import { useStatus } from "../status/Status";
 import { useNavigate } from "react-router-dom";
 import "./navbar.css";
-import { useState } from "react";
-// import logo from "./Corgi_guge-removebg-preview.png";
+import { useEffect, useState } from "react";
 
 function Navbar() {
-  const { status } = useStatus();
-  const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
+   const { status } = useStatus();
+   const token = localStorage.getItem("@token");
+   const navigate = useNavigate();
+   const [online, setOnline] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleLogout = async () => {
-    const isConfirmed = window.confirm("Êtes-vous sûr de vouloir vous déconnecter ?");
-
-    if (isConfirmed) {
-      // Supprime les infos de connexion du localStorage
-      localStorage.removeItem("email");
-      localStorage.removeItem("password");
-      localStorage.removeItem("token");
-
-      try {
-        // Requête vers API pour révoquer le token
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.ok) {
-          // Redirige l'utilisateur vers la page de connexion
-          navigate("/Login");
-        }
-      } catch (error) {
-        console.error("Erreur lors de la déconnexion côté serveur :", error);
+   const handleOnline = () => {
+      if (status === 0 || status === 1) {
+         setOnline(true);
+      } else {
+         setOnline(false);
       }
-    }
-  };
+   };
 
-  return (
-    <div>
-      {/* Menu Hamburger pour les petits écrans */}
-      <div className="hamburgerMenu" onClick={toggleMenu}>
-        <div className={isOpen ? "line line1 active" : "line line1"}></div>
-        <div className={isOpen ? "line line2 active" : "line line2"}></div>
-        <div className={isOpen ? "line line3 active" : "line line3"}></div>
+   useEffect(() => {
+      handleOnline();
+   });
+
+   const handleLogout = async () => {
+      const isConfirmed = window.confirm("Êtes-vous sûr de vouloir vous déconnecter ?");
+
+      if (isConfirmed) {
+         try {
+            let options = {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + token,
+               },
+            };
+
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, options);
+            console.log(response);
+
+            if (response.ok) {
+               localStorage.removeItem("@token");
+               navigate("/login");
+            } else {
+               throw new Error(`Erreur lors de la requête : ${response.status}`);
+            }
+         } catch (error) {
+            console.error(error);
+         }
+      }
+   };
+
+   return (
+      <div className="navbar">
+         <div className="container nav-container">
+            <input className="checkbox" type="checkbox" name="" id="" />
+            <div className="hamburger-lines">
+               <span className="line line1"></span>
+               <span className="line line2"></span>
+               <span className="line line3"></span>
+            </div>
+            <div className="menu-items">
+               <div>
+                  <li>
+                     <a href="/">Accueil</a>
+                  </li>
+                  <li>
+                     <a href="#">Découvir</a>
+                  </li>
+                  {online ? (
+                     <>
+                        <li>
+                           <a href="/create">Partager un voyage</a>
+                        </li>
+                        <li>
+                           <a href="/profile">Profil</a>
+                        </li>
+                     </>
+                  ) : null}
+
+                  <li>
+                     <a href="#">contact</a>
+                  </li>
+               </div>
+               {online ? (
+                  <li>
+                     <a href="#" onClick={handleLogout}>
+                        Se déconnecter
+                     </a>
+                  </li>
+               ) : (
+                  <div>
+                     <li>
+                        <a href="#">S'inscrire</a>
+                     </li>
+                     <li>
+                        <a href="#">Se connecter</a>
+                     </li>
+                  </div>
+               )}
+            </div>
+         </div>
       </div>
-      <nav className={`navTag ${isOpen ? "open" : ""}`}>
-        <a className="imageLink" href="/">
-          {/* <img className="logoSmall" src={logo} /> */}
-        </a>
-        <div className="navbar">
-          <ul className="navbarListLeft">
-            <li>
-              <a className="link" href="/">
-                Découvrir
-              </a>
-            </li>
-            {(status === 0 || status === 1) && (
-              <>
-                <li>
-                  <a className="link" href="/create">
-                    Ajouter
-                  </a>
-                </li>
-                <li>
-                  <a className="link" href="/profile">
-                    Profil
-                  </a>
-                </li>
-              </>
-            )}
-          </ul>
-          <ul className="navbarListRight">
-            {status === 0 || status === 1 ? (
-              <li>
-                <a className="link" onClick={handleLogout}>
-                  Déconnexion
-                </a>
-              </li>
-            ) : (
-              <>
-                <li>
-                  <a className="link" href="/register">
-                    Inscription
-                  </a>
-                </li>
-                <li>
-                  <a className="link" href="/login">
-                    Connexion
-                  </a>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-      </nav>
-    </div>
-  );
+   );
 }
 
 export default Navbar;

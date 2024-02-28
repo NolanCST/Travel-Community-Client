@@ -1,176 +1,221 @@
-import { useState } from "react";
-import Country from "../../components/api/Country";
+import { useEffect, useState } from "react";
 import Navbar from "../../components/layouts/NavBar";
-import { useStatus } from "../../components/status/Status";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function EditTravel() {
-  const { idUser } = useStatus();
-  const travel = useLocation().state;
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    image: {},
-    days: "",
-    country: "",
-  });
-  const [country, setCountry] = useState("");
-  const [travelDays, setTravelDays] = useState([]);
+   const token = localStorage.getItem("@token");
+   const travelId = useLocation().state;
+   const [travel, setTravel] = useState([]);
+   const [newImageTravel, setNewImageTravel] = useState("");
+   const [travelDays, setTravelDays] = useState([]);
+   const [dayImages, setDayImages] = useState([]);
+   const [formData, setFormData] = useState({
+      title: "",
+      description: "",
+      image: {},
+   });
+   const navigate = useNavigate();
 
-  const handleCountryChange = (selectedCountry) => {
-    setCountry(selectedCountry);
-    setFormData({ ...formData, country: selectedCountry });
-  };
+   const handleChange = (e) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+   const handleFileChange = (e) => {
+      const file = e.target.files[0];
+      setFormData({ ...formData, image: file });
+      setNewImageTravel(window.URL.createObjectURL(e.target.files[0]));
+   };
 
-  const handleFile = (e) => {
-    const file = e.target.files[0];
-    setFormData({ ...formData, image: file });
-  };
+   const getTravel = async () => {
+      try {
+         const response = await fetch(`${import.meta.env.VITE_API_URL}/travels/${travelId}`);
 
-  const handleTitleDayChange = (index, value) => {
-    const updatedDays = [...travelDays];
+         const data = await response.json();
+         const travelData = data.travel[0];
 
-    if (!updatedDays[index]) {
-      updatedDays[index] = {
-        titleDay: value,
-        descriptionDay: "",
-        images: [],
-      };
-    } else {
-      updatedDays[index].titleDay = value;
-    }
+         setFormData({
+            title: travelData.title,
+            description: travelData.description,
+            days: travelData.days,
+            country: travelData.country,
+         });
 
-    setTravelDays(updatedDays);
-  };
-
-  const handleDescriptionDayChange = (index, value) => {
-    const updatedDays = [...travelDays];
-
-    if (!updatedDays[index]) {
-      updatedDays[index] = {
-        titleDay: "",
-        descriptionDay: value,
-        images: [],
-      };
-    } else {
-      updatedDays[index].descriptionDay = value;
-    }
-
-    setTravelDays(updatedDays);
-  };
-
-  const handleImageDayChange = (index, e) => {
-    const file = e.target.files[0];
-    setTravelDays((prevDays) => {
-      const updatedDays = [...prevDays];
-      if (!updatedDays[index]) {
-        updatedDays[index] = {
-          titleDay: "",
-          descriptionDay: "",
-          images: [file],
-        };
-      } else {
-        if (!updatedDays[index].images || !updatedDays[index].images.includes(file)) {
-          updatedDays[index].images = [...(updatedDays[index].images || []), file];
-        }
+         setTravel(travelData);
+         setTravelDays(data.travelDays);
+         setDayImages(data.dayImages);
+      } catch (error) {
+         console.log(error);
       }
+   };
 
-      return updatedDays;
-    });
+   useEffect(() => {
+      getTravel();
+   }, []);
 
-    e.target.value = null;
-  };
-
-  const renderTravelDay = () => {
-    console.log(travel);
-    const travelDayElements = [];
-    for (let i = 0; i < formData.days; i++) {
-      travelDayElements.push(
-        <div key={i}>
-          <label htmlFor={`title_day_${i}`}>Titre du jour</label>
-          <input type="text" id={`title_day_${i}`} name={`title_day_${i}`} max="50" defaultValue={travelDays[i]?.titleDay || ""} onChange={(e) => handleTitleDayChange(i, e.target.value)} />
-          <label htmlFor={`description_day_${i}`}>Description du jour</label>
-          <textarea name={`description_day_${i}`} id={`description_day_${i}`} cols="30" rows="10" defaultValue={travelDays[i]?.descriptionDay || ""} onChange={(e) => handleDescriptionDayChange(i, e.target.value)}></textarea>
-          <label htmlFor={`image_day_${i}`}>Images du jour</label>
-          <input type="file" id={`image_day_${i}`} name={`image_day_${i}`} onChange={(e) => handleImageDayChange(i, e)} />
-          {travelDays[i]?.images && (
-            <div>
-              <strong>Images ajoutées :</strong>
-              {travelDays[i].images.map((image, index) => (
-                <div key={index}>{image.name}</div>
-              ))}
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    return travelDayElements;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formDataToSend = new FormData();
-    formDataToSend.append("title", formData.title);
-    formDataToSend.append("description", formData.description);
-    formDataToSend.append("image", formData.image);
-    formDataToSend.append("days", formData.days);
-    formDataToSend.append("country", formData.country);
-    travelDays.map((element, idx) => {
-      formDataToSend.append(`travelDays[${idx}][titleDay]`, element.titleDay);
-      formDataToSend.append(`travelDays[${idx}][descriptionDay]`, element.titleDay);
-      element.images.map((img, idx) => {
-        formDataToSend.append(`travelDays[${idx}][images][]`, img);
+   const handleTitleDayChange = (id, value) => {
+      const updatedDays = travelDays.map((element) => {
+         if (element.id === id) {
+            return { ...element, title_day: value };
+         }
+         return element;
       });
-    });
-    formDataToSend.append("user_id", idUser);
+      setTravelDays(updatedDays);
+   };
 
-    try {
-      let options = {
-        method: "POST",
-        body: formDataToSend,
-      };
+   const handleDescriptionDayChange = (id, value) => {
+      const updatedDays = travelDays.map((element) => {
+         if (element.id === id) {
+            return { ...element, description_day: value };
+         }
+         return element;
+      });
+      setTravelDays(updatedDays);
+   };
 
-      await fetch(`${import.meta.env.VITE_API_URL}/travels`, options)
-        .then((response) => {
-          if (response.ok) {
-            navigate("/profile");
-          } else {
+   const handleImageDayChange = (id, e) => {
+      const file = e.target.files[0];
+
+      const updatedDays = travelDays.map((element) => {
+         if (element.id === id) {
+            if (!element.images || !element.images.some((img) => img.name === file.name)) {
+               element.images = [...(element.images || []), file];
+            }
+         }
+         return element;
+      });
+      setTravelDays(updatedDays);
+
+      e.target.value = null;
+   };
+
+   const handleDeleteImage = (dayIndex, imageIndex) => {
+      setTravelDays((prevDays) => {
+         const updatedDays = [...prevDays];
+         updatedDays[dayIndex].images.splice(imageIndex, 1);
+         return updatedDays;
+      });
+   };
+
+   const renderTravelDays = () => {
+      return travelDays?.map((element, index) => {
+         const imagesForDay = dayImages[index];
+         return (
+            <div key={index}>
+               <label htmlFor={`title_day_${element.id}`}>Titre du jour</label>
+               <input type="text" id={`title_day_${element.id}`} name={`title_day_${element.id}`} max="50" defaultValue={element.title_day} onChange={(e) => handleTitleDayChange(element.id, e.target.value)} />
+               <label htmlFor={`description_day_${element.id}`}>Description du jour</label>
+               <textarea name={`description_day_${element.id}`} id={`description_day_${element.id}`} cols="30" rows="10" defaultValue={element.description_day} onChange={(e) => handleDescriptionDayChange(element.id, e.target.value)}></textarea>
+               <label htmlFor={`image_day_${element.id}`}>Images du jour</label>
+               <input type="file" id={`image_day_${element.id}`} name={`image_day_${element.id}`} onChange={(e) => handleImageDayChange(element.id, e)} />
+               {imagesForDay?.map((imageElement, imageIndex) => {
+                  return (
+                     <div key={imageIndex}>
+                        <img src={imageElement.image} alt={imageElement.alt} />
+                        <button
+                           onClick={() => {
+                              handleDeleteImgDay(imageElement.id);
+                           }}
+                        >
+                           Supprimer
+                        </button>
+                     </div>
+                  );
+               })}
+               {element.images && (
+                  <div>
+                     <strong>Images ajoutées :</strong>
+                     {element.images.map((image, index) => (
+                        <div key={index}>
+                           {image.name}
+                           <button type="button" onClick={() => handleDeleteImage(element.id, index)}>
+                              Supprimer
+                           </button>
+                        </div>
+                     ))}
+                  </div>
+               )}
+            </div>
+         );
+      });
+   };
+
+   const handleDeleteImgDay = async (id) => {
+      try {
+         let options = {
+            method: "DELETE",
+            headers: {
+               Authorization: "Bearer " + token,
+            },
+         };
+
+         const response = await fetch(`${import.meta.env.VITE_API_URL}/imgDay/${id}`, options);
+
+         const data = await response.json();
+         console.log(data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      const formDataToSend = new FormData();
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("description", formData.description);
+      formDataToSend.append("image", formData.image);
+      travelDays.map((element, idx) => {
+         formDataToSend.append(`travelDays[${idx}][id]`, element.id);
+         formDataToSend.append(`travelDays[${idx}][title_day]`, element.title_day);
+         formDataToSend.append(`travelDays[${idx}][description_day]`, element.description_day);
+         element.images?.map((img) => {
+            formDataToSend.append(`travelDays[${idx}][images][]`, img);
+         });
+      });
+      formDataToSend.append("_method", "PUT");
+
+      try {
+         let options = {
+            method: "POST",
+            headers: {
+               Authorization: "Bearer " + token,
+            },
+            body: formDataToSend,
+         };
+
+         const response = await fetch(`${import.meta.env.VITE_API_URL}/travels/${travelId}`, options);
+         console.log(response);
+         if (response.ok) {
+            //   navigate("/profile");
+         } else {
             throw new Error(`Erreur lors de la requête : ${response.status}`);
-          }
-        })
-        .catch((error) => console.error("Erreur lors de la requête :", error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+         }
+      } catch (error) {
+         console.log(error);
+      }
+   };
 
-  return (
-    <>
-      <nav>
-        <Navbar />
-      </nav>
-      <form encType="multipart/form-data" onSubmit={handleSubmit}>
-        <label htmlFor="title">Titre</label>
-        <input type="text" id="title" name="title" max="50" onChange={handleChange} required />
-        <label htmlFor="description">Description</label>
-        <textarea name="description" id="description" cols="30" rows="10" onChange={handleChange} required></textarea>
-        <label htmlFor="image">Image</label>
-        <input type="file" id="image" name="image" onChange={handleFile} />
-        <label htmlFor="days">Nombre de jours</label>
-        <input type="number" id="days" name="days" onChange={handleChange} required />
-        <label htmlFor="country">Destination</label>
-        <Country selectedCountry={country} onCountryChange={handleCountryChange} />
-        {renderTravelDay()}
-        <input type="submit" />
-      </form>
-    </>
-  );
+   return (
+      <>
+         <nav>
+            <Navbar />
+         </nav>
+         <form encType="multipart/form-data" onSubmit={handleSubmit}>
+            <label htmlFor="title">Titre</label>
+            <input type="text" id="title" name="title" max="50" defaultValue={travel.title} onChange={handleChange} required />
+            <label htmlFor="description">Description</label>
+            <textarea name="description" id="description" cols="30" rows="10" defaultValue={travel.description} onChange={handleChange} required></textarea>
+            <label htmlFor="image">Image</label>
+            <input type="file" id="image" name="image" onChange={handleFileChange} />
+            <p>Nombre de jours: {travel.days}</p>
+            <p>Destination: {travel.country}</p>
+            <label htmlFor="imageTravel"></label>
+            <img id="imageTravel" src={newImageTravel ? newImageTravel : travel.image} alt={travel.alt} />
+            {renderTravelDays()}
+            <input type="submit" />
+         </form>
+      </>
+   );
 }
 
 export default EditTravel;

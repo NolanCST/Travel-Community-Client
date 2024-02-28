@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../../components/layouts/NavBar";
 import { Link } from "react-router-dom";
+import "./profile.css";
 
 function Profile() {
   const [user, setUser] = useState([]);
@@ -45,16 +46,20 @@ function Profile() {
       if (element.user_id === user.id) {
         return (
           <>
-            <Link key={index} to={`/details/${element.id}`} state={element} style={{ textDecoration: "none" }}>
+            <Link className="travel-item" key={index} to={`/details/${element.id}`} state={element.id} style={{ textDecoration: "none" }}>
               <p>{element.title}</p>
               <p>{element.country}</p>
               <p>Jours: {element.days}</p>
-              <img src={element.image} alt="image" />
+              <img src={element.image} alt={element.alt} />
             </Link>
-            <Link to={`/edit/${element.id}`} state={element} style={{ textDecoration: "none" }}>
-              <button type="button">Modifier</button>
+            <Link to={`/edit/${element.id}`} state={element.id} style={{ textDecoration: "none" }}>
+              <button className="edit-button" type="button">
+                Modifier
+              </button>
             </Link>
-            <button onClick={handleDelete}>Supprimer</button>
+            <button className="delete-button" onClick={handleDelete}>
+              Supprimer
+            </button>
           </>
         );
       }
@@ -67,13 +72,16 @@ function Profile() {
   }, []);
 
   const handleDelete = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/travels/${travels[0].id}`, { method: "DELETE" });
+    const isConfirmed = window.confirm("Êtes-vous sûr de vouloir supprimer votre voyage ?");
+    if (isConfirmed) {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/travels/${travels[0].id}`, { method: "DELETE" });
 
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error(error);
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -82,14 +90,14 @@ function Profile() {
       <nav>
         <Navbar />
       </nav>
-      <div>
+      <div className="profile-container">
         <p>{user.lastname}</p>
         <p>{user.firstname}</p>
         <p>{user.pseudo}</p>
         <p>{user.email}</p>
         <p>{user.country}</p>
       </div>
-      <div>{renderTravels()}</div>
+      <div className="travel-list">{renderTravels()}</div>
     </>
   );
 }
