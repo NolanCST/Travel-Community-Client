@@ -4,6 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: var(--clr-4);
 }
 
 .profileContainer {
@@ -32,52 +33,78 @@
   align-items: center;
   padding-left: 5%;
   margin-top: 3%;
+  font-family: gotham-light;
+}
+
+.profileFormSubmit,
+.profiledelete {
+  background-color: var(--clr-4);
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
+}
+.profileDeleteBtn {
+  width: 150px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  color: var(--clr-4);
+  background-color: var(--clr-1);
+  box-shadow: 2px 2px var(--clr-1);
 }
 
 /* Travel list styles */
 .travel-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 40px;
+  background-color: var(--clr-2);
+  padding-bottom: 40px;
 }
 
-.travel-item {
-  width: calc(33.33% - 20px);
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  background-color: #fff;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+.myTravels {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--clr-2);
 }
 
-.travel-item img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-  margin-bottom: 10px;
+.myTravelsTitle {
+  padding: 20px 0 10px 0;
+  color: var(--clr-4);
+  font-family: "Fira Sans", sans-serif;
 }
 
-/* Edit and delete button styles */
-.edit-button,
-.delete-button {
-  display: inline-block;
-  padding: 5px 10px;
-  margin-top: 10px;
-  font-size: 14px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  color: #fff;
+.userTravels {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userTravelsBtn {
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.userTravelsBtn .editButton {
+  width: 100px;
+  height: 30px;
+  border-radius: 20px;
   border: none;
-  border-radius: 3px;
+  color: var(--clr-1);
+  background-color: var(--clr-3);
+  box-shadow: 2px 2px var(--clr-1);
 }
 
-.edit-button {
-  background-color: #2ecc71;
-}
-
-.delete-button {
-  background-color: #e74c3c;
-  margin-left: 10px;
+.userTravelsBtn .deleteButton {
+  width: 100px;
+  height: 30px;
+  border-radius: 20px;
+  border: none;
+  color: var(--clr-4);
+  background-color: var(--clr-1);
+  box-shadow: 2px 2px var(--clr-1);
 }

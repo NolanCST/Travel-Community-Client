@@ -153,7 +153,7 @@ function CreateTravel() {
     travelDays.map((element, idx) => {
       formDataToSend.append(`travelDays[${idx}][titleDay]`, element.titleDay);
       formDataToSend.append(`travelDays[${idx}][descriptionDay]`, element.descriptionDay);
-      element.images.map((img, idx) => {
+      element.images.map((img) => {
         formDataToSend.append(`travelDays[${idx}][images][]`, img);
       });
     });
