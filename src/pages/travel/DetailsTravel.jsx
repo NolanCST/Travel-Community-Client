@@ -87,6 +87,7 @@ function DetailsTravel() {
         {renderTravel()}
         {renderTravelDays()}
         {renderLegislation()}
+        <div className="review"></div>
       </div>
       <footer>
         <Footer />
