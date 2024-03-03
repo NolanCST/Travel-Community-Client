@@ -8,6 +8,7 @@ import Register from "./pages/connexion/Register";
 import Login from "./pages/connexion/Login";
 import Profile from "./pages/profile/profile";
 import { StatusProvider } from "./components/status/Status";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const router = createBrowserRouter([
