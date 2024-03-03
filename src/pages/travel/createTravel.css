@@ -1,9 +1,28 @@
-.travelForm {
+.createHeader {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerTitle {
+  padding: 70px 0 10px 0;
   font-family: "Fira Sans", sans-serif;
 }
 
-.travelForm1 {
-  padding-top: 60px;
+.headerImg {
+  width: 95%;
+  border-radius: 30px;
+}
+
+.travelForm {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: bold;
+}
+
+.travelForm1,
+.travelForm2 {
   background-color: var(--clr-4);
   display: flex;
   flex-direction: column;
@@ -11,17 +30,41 @@
 }
 
 .travelFormLabel {
-  margin: 10% 0 3% 0;
+  margin: 30px 0 3% 0;
 }
 
 .travelFormInput {
   width: 90%;
   height: 30px;
   border-radius: 10px;
+  border: 0.1px solid var(--clr-1);
+  box-shadow: 2px 2px var(--clr-1);
 }
 
 .travelFormArea {
   width: 90%;
   border-radius: 10px;
+  border: 0.1px solid var(--clr-1);
+  box-shadow: 2px 2px var(--clr-1);
   resize: none;
+}
+
+.travelForm2 {
+  padding: 20px 0;
+}
+
+.travelFormSubmit {
+  background-color: var(--clr-4);
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
+}
+
+.submitBtn {
+  width: 150px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--clr-3);
+  box-shadow: 2px 2px var(--clr-1);
 }

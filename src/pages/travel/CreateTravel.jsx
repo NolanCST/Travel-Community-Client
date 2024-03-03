@@ -99,16 +99,31 @@ function CreateTravel() {
     const travelDayElements = [];
     for (let i = 0; i < formData.days; i++) {
       travelDayElements.push(
-        <div key={i}>
-          <label htmlFor={`title_day_${i}`}>Titre du jour</label>
-          <input type="text" id={`title_day_${i}`} name={`title_day_${i}`} max="50" defaultValue={travelDays[i]?.titleDay || ""} onChange={(e) => handleTitleDayChange(i, e.target.value)} />
-          <label htmlFor={`description_day_${i}`}>Description du jour</label>
-          <textarea name={`description_day_${i}`} id={`description_day_${i}`} cols="30" rows="10" defaultValue={travelDays[i]?.descriptionDay || ""} onChange={(e) => handleDescriptionDayChange(i, e.target.value)}></textarea>
-          <label htmlFor={`image_day_${i}`}>Images du jour</label>
+        <div key={i} className="travelForm2">
+          <h1>Jour {i + 1}</h1>
+          <label className="travelFormLabel" htmlFor={`title_day_${i}`}>
+            Titre du jour
+          </label>
+          <input className="travelFormInput" type="text" id={`title_day_${i}`} name={`title_day_${i}`} max="50" defaultValue={travelDays[i]?.titleDay || ""} onChange={(e) => handleTitleDayChange(i, e.target.value)} />
+          <label className="travelFormLabel" htmlFor={`description_day_${i}`}>
+            Description du jour
+          </label>
+          <textarea
+            className="travelFormArea"
+            name={`description_day_${i}`}
+            id={`description_day_${i}`}
+            cols="30"
+            rows="10"
+            defaultValue={travelDays[i]?.descriptionDay || ""}
+            onChange={(e) => handleDescriptionDayChange(i, e.target.value)}
+          ></textarea>
+          <label className="travelFormLabel" htmlFor={`image_day_${i}`}>
+            Images du jour
+          </label>
           <input type="file" id={`image_day_${i}`} name={`image_day_${i}`} onChange={(e) => handleImageDayChange(i, e)} />
           {travelDays[i]?.images && (
-            <div>
-              <strong>Images ajoutées :</strong>
+            <div className="travelFormLabel">
+              <p>Images ajoutées :</p>
               {travelDays[i].images.map((image, index) => (
                 <div key={index}>
                   {image.name}
@@ -138,7 +153,7 @@ function CreateTravel() {
     travelDays.map((element, idx) => {
       formDataToSend.append(`travelDays[${idx}][titleDay]`, element.titleDay);
       formDataToSend.append(`travelDays[${idx}][descriptionDay]`, element.descriptionDay);
-      element.images.map((img, idx) => {
+      element.images.map((img) => {
         formDataToSend.append(`travelDays[${idx}][images][]`, img);
       });
     });
@@ -170,6 +185,10 @@ function CreateTravel() {
       <nav>
         <Navbar />
       </nav>
+      <div className="createHeader">
+        <h1 className="headerTitle">Partager un voyage</h1>
+        <img className="headerImg" src="../../public/images/decor.jpg" alt="décor montagneux" />
+      </div>
       <form className="travelForm" encType="multipart/form-data" onSubmit={handleSubmit}>
         <div className="travelForm1">
           <label className="travelFormLabel" htmlFor="title">
@@ -181,7 +200,7 @@ function CreateTravel() {
           </label>
           <textarea className="travelFormArea" name="description" id="description" cols="30" rows="10" onChange={handleChange} required></textarea>
           <label className="travelFormLabel" htmlFor="image">
-            Image
+            Image de présentation
           </label>
           <input type="file" id="image" name="image" onChange={handleFile} />
           <label className="travelFormLabel" htmlFor="days">
@@ -194,7 +213,9 @@ function CreateTravel() {
           <Country selectedCountry={country} onCountryChange={handleCountryChange} />
         </div>
         {renderTravelDay()}
-        <input type="submit" />
+        <div className="travelFormSubmit">
+          <input className="submitBtn" type="submit" />
+        </div>
       </form>
     </>
   );

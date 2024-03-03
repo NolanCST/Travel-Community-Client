@@ -24,7 +24,7 @@ function Home() {
         <img className="cardImage" src={element.image} alt="image" />
         <div className="cardInfos">
           <h3 className="cardTitle">{element.title}</h3>
-          <p className="cardCountry">Pays: {element.country}</p>
+          <p className="cardCountry">Pays: {element.legislations[0].country}</p>
           <p className="cardDays">Nombre de jours: {element.days}</p>
         </div>
         <a className="homeBtn" href="#">

@@ -17,11 +17,14 @@ function Country({ selectedCountry, onCountryChange, country }) {
   }, []);
 
   const renderListCountries = () => {
-    return listCountries?.map((element) => (
-      <option key={element.code} value={element.name}>
-        {element.nameFr}
-      </option>
-    ));
+    return listCountries?.map((element, index) => {
+      const id = index + 1;
+      return (
+        <option key={element.code} value={id}>
+          {element.nameFr}
+        </option>
+      );
+    });
   };
 
   return (
