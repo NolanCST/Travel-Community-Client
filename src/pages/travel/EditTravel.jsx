@@ -32,7 +32,7 @@ function EditTravel() {
 
          const data = await response.json();
          const travelData = data.travel[0];
-
+         console.log(travelData);
          setFormData({
             title: travelData.title,
             description: travelData.description,
@@ -208,7 +208,7 @@ function EditTravel() {
             <label htmlFor="image">Image</label>
             <input type="file" id="image" name="image" onChange={handleFileChange} />
             <p>Nombre de jours: {travel.days}</p>
-            <p>Destination: {travel.country}</p>
+            <p>Destination: {travel.legislations[0].country}</p>
             <label htmlFor="imageTravel"></label>
             <img id="imageTravel" src={newImageTravel ? newImageTravel : travel.image} alt={travel.alt} />
             {renderTravelDays()}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "../../components/layouts/NavBar";
+import Footer from "../../components/layouts/Footer";
+import "./detailsTravel.css";
 
 function DetailsTravel() {
    const travelId = useLocation().state;
@@ -14,7 +16,7 @@ function DetailsTravel() {
          const response = await fetch(`${import.meta.env.VITE_API_URL}/travels/${travelId}`);
 
          const data = await response.json();
-         console.log(data);
+
          setTravel(data.travel);
          setTravelDays(data.travelDays);
          setDayImages(data.dayImages);
@@ -30,26 +32,26 @@ function DetailsTravel() {
 
    const renderTravel = () => {
       return travel?.map((element, index) => (
-         <div key={index}>
-            <p>{element.title}</p>
-            <p>{element.country}</p>
-            <p>Jours: {element.days}</p>
-            <img src={element.image} alt={element.alt} />
+         <div className="detailsPart1" key={index}>
+            <p className="detailsTitle">{element.title}</p>
+            <p className="detailsCountry">{element.legislations[0].country}</p>
+            <p className="detailsNumberDays">Jours: {element.days}</p>
+            <img className="imgTravel" src={element.image} alt={element.alt} />
          </div>
       ));
    };
 
    const renderTravelDays = () => {
       return travelDays?.map((dayElement, index) => {
-         // Trouver le tableau d'images correspondant au jour actuel
          const imagesForDay = dayImages[index];
 
-         // Vérifier s'il y a des images pour ce jour
          if (imagesForDay && imagesForDay.length > 0) {
             return (
-               <div key={index}>
-                  <p>{dayElement.title_day}</p>
-                  <p>{dayElement.description_day}</p>
+               <div className="detailsPart2" key={index}>
+                  <p className="detailsDayTitle">
+                     Jour {index + 1} : {dayElement.title_day}
+                  </p>
+                  <p className="detailsDayDesc">{dayElement.description_day}</p>
                   {imagesForDay.map((imageElement, imageIndex) => (
                      <div key={imageIndex}>
                         <img src={imageElement.image} alt={imageElement.alt} />
@@ -58,7 +60,6 @@ function DetailsTravel() {
                </div>
             );
          } else {
-            // Retourner null si aucune correspondance trouvée
             return null;
          }
       });
@@ -66,9 +67,9 @@ function DetailsTravel() {
 
    const renderLegislation = () => {
       return legislation?.map((element, index) => (
-         <div key={index}>
-            <p>{element.country}</p>
-            <p>{element.rules}</p>
+         <div className="legislationTravel" key={index}>
+            <p className="legislationTitle">Renseignements important concernant le {element.country}</p>
+            <p className="legislationDesc">{element.rules}</p>
          </div>
       ));
    };
@@ -78,11 +79,14 @@ function DetailsTravel() {
          <nav>
             <Navbar />
          </nav>
-         <div>
+         <div className="detailsTravel">
             {renderTravel()}
             {renderTravelDays()}
             {renderLegislation()}
          </div>
+         <footer>
+            <Footer />
+         </footer>
       </>
    );
 }
