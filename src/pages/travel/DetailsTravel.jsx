@@ -4,6 +4,7 @@ import Navbar from "../../components/layouts/NavBar";
 import Footer from "../../components/layouts/Footer";
 import Carousel from "react-bootstrap/Carousel";
 import "./detailsTravel.css";
+import Rates from "../../components/rates/Rates";
 
 function DetailsTravel() {
   const travelId = useLocation().state;
@@ -87,8 +88,8 @@ function DetailsTravel() {
         {renderTravel()}
         {renderTravelDays()}
         {renderLegislation()}
-        <div className="review"></div>
       </div>
+      <Rates travel={travel} />
       <footer>
         <Footer />
       </footer>
