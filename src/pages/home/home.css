@@ -152,6 +152,7 @@
   font-family: "Fira Sans", sans-serif;
   padding-bottom: 3%;
   color: var(--clr-1);
+  margin: 0;
 }
 
 .cardCountry,
@@ -159,6 +160,7 @@
   font-family: gotham-light;
   padding-bottom: 3%;
   color: var(--clr-1);
+  margin: 0;
 }
 
 /*********************
