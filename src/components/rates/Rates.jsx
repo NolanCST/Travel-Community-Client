@@ -1,14 +1,14 @@
 import { useState } from "react";
-// import { useStatus } from "../status/Status";
+import { useStatus } from "../status/Status";
 import "./rates.css";
 
 function Rates(props) {
-  //   const { idUser } = useStatus();
+  const { idUser } = useStatus();
   const [review, setReview] = useState("");
   const [rate, setRate] = useState([]);
-  //   const [newReview, setNewReview] = useState("");
-  //   const [newRate, setNewRate] = useState([]);
-  //   const [editMode, setEditMode] = useState(-1);
+  const [newReview, setNewReview] = useState("");
+  const [newRate, setNewRate] = useState([]);
+  const [editMode, setEditMode] = useState(-1);
   const token = localStorage.getItem("@token");
 
   const createRate = async (e) => {
@@ -46,53 +46,56 @@ function Rates(props) {
     }
   };
 
-  //   const renderRates = () => {
-  //     return props.ratings?.map((element, index) => {
-  //       const rateId = element.id;
-  //       const stars = [];
-  //       let renderImgRate = "";
+  const editRate = () => {};
+  const enterEditMode = () => {};
+  const deleteRate = () => {};
 
-  //       for (let i = 0; i < element.rate; i++) {
-  //         stars.push(<span key={i}>⭐</span>);
-  //       }
-  //       if (element.image != null) {
-  //         renderImgRate = element.image;
-  //       }
+  const renderRates = () => {
+    return props.rates?.map((element, index) => {
+      const rateId = element.id;
+      const stars = [];
+      let renderImgRate = "";
 
-  //       return (
-  //         <div className="renderRateDetailsPlace" key={index}>
-  //           {editMode === rateId ? (
-  //             // Formulaire d'édition
-  //             <form encType="multipart/form-data" onSubmit={(e) => editRate(e, rateId)}>
-  //               <p>Votre note</p>
-  //               <input type="number" min="1" max="5" defaultValue={element.rate} onChange={(e) => setNewRate(e.target.value)} required />
-  //               <p>Votre commentaire</p>
-  //               <textarea defaultValue={element.review} onChange={(e) => setNewReview(e.target.value)}></textarea>
-  //               <button type="submit">Enregistrer</button>
-  //             </form>
-  //           ) : (
-  //             // Contenu de l'avis
-  //             <div>
-  //               <div className="renderStarRate">{stars}</div>
-  //               <img className="renderImgRate" src={renderImgRate} />
-  //               <p>{element.review}</p>
-  //             </div>
-  //           )}
-  //           {element.user_id === idUser ? (
-  //             <div>
-  //               <button className="btnEditRate" onClick={() => enterEditMode(rateId)}>
-  //                 ✏️
-  //               </button>
-  //               <button className="btnDeleteRate" onClick={() => deleteRate(rateId)}>
-  //                 🗑️
-  //               </button>
-  //             </div>
-  //           ) : null}
-  //           <Vote />
-  //         </div>
-  //       );
-  //     });
-  //   };
+      for (let i = 0; i < element.rate; i++) {
+        stars.push(<span key={i}>⭐</span>);
+      }
+      if (element.image != null) {
+        renderImgRate = element.image;
+      }
+
+      return (
+        <div className="renderRateDetailsPlace" key={index}>
+          {editMode === rateId ? (
+            // Formulaire d'édition
+            <form encType="multipart/form-data" onSubmit={(e) => editRate(e, rateId)}>
+              <p>Votre note</p>
+              <input type="number" min="1" max="5" defaultValue={element.rate} onChange={(e) => setNewRate(e.target.value)} required />
+              <p>Votre commentaire</p>
+              <textarea defaultValue={element.review} onChange={(e) => setNewReview(e.target.value)}></textarea>
+              <button type="submit">Enregistrer</button>
+            </form>
+          ) : (
+            // Contenu de l'avis
+            <div>
+              <div className="renderStarRate">{stars}</div>
+              <img className="renderImgRate" src={renderImgRate} />
+              <p>{element.review}</p>
+            </div>
+          )}
+          {element.user_id === idUser ? (
+            <div>
+              <button className="btnEditRate" onClick={() => enterEditMode(rateId)}>
+                ✏️
+              </button>
+              <button className="btnDeleteRate" onClick={() => deleteRate(rateId)}>
+                🗑️
+              </button>
+            </div>
+          ) : null}
+        </div>
+      );
+    });
+  };
 
   return (
     <>
@@ -137,7 +140,7 @@ function Rates(props) {
           </div>
           <div className="span2">
             <h2 className="titleComment">Commentaires</h2>
-            {/* <div>{renderRates()}</div> */}
+            <div>{renderRates()}</div>
           </div>
         </div>
       </section>
