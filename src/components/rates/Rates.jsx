@@ -7,7 +7,7 @@ function Rates(props) {
   const [review, setReview] = useState("");
   const [rate, setRate] = useState([]);
   const [newReview, setNewReview] = useState("");
-  const [newRate, setNewRate] = useState([]);
+  const [newRate, setNewRate] = useState("");
   const [editMode, setEditMode] = useState(-1);
   const token = localStorage.getItem("@token");
 
@@ -46,10 +46,6 @@ function Rates(props) {
     }
   };
 
-  const editRate = () => {};
-  const enterEditMode = () => {};
-  const deleteRate = () => {};
-
   const renderRates = () => {
     return props.rates?.map((element, index) => {
       const rateId = element.id;
@@ -83,8 +79,8 @@ function Rates(props) {
             </div>
           )}
           {element.user_id === idUser ? (
-            <div>
-              <button className="btnEditRate" onClick={() => enterEditMode(rateId)}>
+            <div className="rateBtns">
+              <button className="btnEditRate" onClick={() => enterEditMode(rateId, element.rate, element.review)}>
                 ✏️
               </button>
               <button className="btnDeleteRate" onClick={() => deleteRate(rateId)}>
@@ -95,6 +91,61 @@ function Rates(props) {
         </div>
       );
     });
+  };
+
+  const enterEditMode = (rateId, oldRate, oldReview) => {
+    if (editMode !== -1) {
+      setEditMode(-1);
+    } else {
+      setEditMode(rateId);
+      setNewReview(oldReview);
+      setNewRate(oldRate);
+    }
+  };
+
+  const editRate = async (e, rateId) => {
+    e.preventDefault();
+
+    let options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        review: newReview,
+        rate: newRate,
+      }),
+    };
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/rates/${rateId}`, options);
+      const data = await response.json();
+      if (data.success) {
+        console.log("Votre avis a bien été modifié");
+      }
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+    setEditMode(-1);
+  };
+
+  const deleteRate = async (rateId) => {
+    try {
+      let options = {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/rates/${rateId}`, options);
+      const data = await response.json();
+      alert(data.message);
+      renderRates();
+    } catch (error) {
+      console.error("Erreur dans la suppression de votre avis", error);
+    }
   };
 
   return (

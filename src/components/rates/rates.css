@@ -121,14 +121,30 @@ span2 {
 }
 
 .renderRateDetailsPlace {
-  width: 20vw;
+  width: 80vw;
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
-  background-color: var(--clr-5);
+  background-color: var(--clr-4);
+  color: var(--clr-1);
   padding: 5%;
   border: 1px solid gray;
+}
+
+.rateBtns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.btnEditRate,
+.btnDeleteRate {
+  width: 100px;
+  border: none;
+  border-radius: 30px;
+  background-color: var(--clr-2);
+  box-shadow: 2px 2px black;
 }
 
 .renderStarRate {

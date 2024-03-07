@@ -19,7 +19,6 @@ function Home() {
   }, []);
 
   const renderTravels = () => {
-    console.log(travels);
     return travels?.map((element, index) => (
       <Link className="traCard" key={index} to={`/details/${element.id}`} state={element.id} style={{ textDecoration: "none" }}>
         <img className="cardImage" src={element.image} alt="image" />

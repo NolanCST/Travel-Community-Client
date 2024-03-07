@@ -1,25 +1,12 @@
 import { useStatus } from "../status/Status";
 import { useNavigate } from "react-router-dom";
 import "./navbar.css";
-import { useEffect, useState } from "react";
 
 function Navbar() {
-  const { status } = useStatus();
+  const { status, refresh: refreshStatus, clear: clearStatus } = useStatus();
   const token = localStorage.getItem("@token");
   const navigate = useNavigate();
-  const [online, setOnline] = useState(false);
-
-  const handleOnline = () => {
-    if (status === 0 || status === 1) {
-      setOnline(true);
-    } else {
-      setOnline(false);
-    }
-  };
-
-  useEffect(() => {
-    handleOnline();
-  });
+  const online = status === 0 || status === 1;
 
   const handleLogout = async () => {
     const isConfirmed = window.confirm("Êtes-vous sûr de vouloir vous déconnecter ?");
@@ -38,6 +25,8 @@ function Navbar() {
 
         if (response.ok) {
           localStorage.removeItem("@token");
+          refreshStatus();
+          clearStatus();
           navigate("/login");
         } else {
           throw new Error(`Erreur lors de la requête : ${response.status}`);
