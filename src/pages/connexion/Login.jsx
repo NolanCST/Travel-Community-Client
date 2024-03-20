@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useStatus } from "../../components/status/Status";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/layouts/NavBar";
 import "./login.css";
 
 function Login() {
+  const { refresh: refreshStatus, clear: clearStatus } = useStatus();
   const [loginInput, setLogin] = useState({
     email: "",
     password: "",
@@ -36,6 +38,8 @@ function Login() {
 
     if (data.status === 200) {
       localStorage.setItem("@token", data.token);
+      refreshStatus();
+      clearStatus();
       alert(data.message);
       navigate("/");
     } else if (data.status === 401) {
@@ -51,13 +55,15 @@ function Login() {
         <Navbar />
       </nav>
       <form className="loginForm" onSubmit={loginSubmit}>
-        <label htmlFor="email">Email:</label>
-        <input id="email" type="email" name="email" value={loginInput.email} onChange={handleInput} required />
-        <span>{loginInput.error_list.email}</span>
-        <label htmlFor="password">Mot de passe:</label>
-        <input id="password" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+]).{12,}" value={loginInput.password} onChange={handleInput} required />
-        <span>{loginInput.error_list.password}</span>
-        <input type="submit" />
+        <div className="loginElements">
+          <label htmlFor="email">Email:</label>
+          <input id="email" type="email" name="email" value={loginInput.email} onChange={handleInput} required />
+          <span>{loginInput.error_list.email}</span>
+          <label htmlFor="password">Mot de passe:</label>
+          <input id="password" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+]).{12,}" value={loginInput.password} onChange={handleInput} required />
+          <span>{loginInput.error_list.password}</span>
+          <input className="submitBtn" type="submit" />
+        </div>
       </form>
     </>
   );

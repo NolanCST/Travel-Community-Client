@@ -47,7 +47,10 @@ function Navbar() {
           <span className="line line3"></span>
         </div>
         <div className="menu-items">
-          <div>
+          <div className="divLogoNav">
+            <img className="logoNav" src="../../public/images/logo-bg.png" alt="logo Travel Community" />
+          </div>
+          <div className="items-list">
             <li>
               <a href="/">Accueil</a>
             </li>
@@ -76,7 +79,7 @@ function Navbar() {
               </a>
             </li>
           ) : (
-            <div>
+            <div className="connexion">
               <li>
                 <a href="/register">S'inscrire</a>
               </li>

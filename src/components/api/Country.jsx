@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./country.css";
 
 function Country({ selectedCountry, onCountryChange, country }) {
   const [listCountries, setListCountries] = useState([]);

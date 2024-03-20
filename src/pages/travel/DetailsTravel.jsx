@@ -81,7 +81,7 @@ function DetailsTravel() {
   const renderLegislation = () => {
     return legislation?.map((element, index) => (
       <div className="legislationTravel" key={index}>
-        <p className="legislationTitle">Renseignements important concernant le pays</p>
+        <p className="legislationTitle">Renseignements important concernant le pays : {element.country}</p>
         <p className="legislationDesc">{element.rules}</p>
       </div>
     ));
