@@ -1,0 +1,14 @@
+.imagesForDay {
+  margin-top: 30px;
+  display: flex;
+  gap: 30px;
+}
+
+.imageForDay {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageDay {
+  max-width: 300px;
+}
