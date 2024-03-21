@@ -141,7 +141,7 @@
 
 .traCard {
   width: 75%;
-  height: 350px;
+  height: 400px;
   background-color: var(--clr-4);
   margin-bottom: 5%;
   display: flex;
@@ -296,7 +296,7 @@
 
   .traCard {
     width: 25%;
-    height: 500px;
+    height: 550px;
   }
 
   .advTitle {
