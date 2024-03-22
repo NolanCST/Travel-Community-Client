@@ -188,7 +188,7 @@ function EditTravel() {
       if (response.ok) {
         //   navigate("/profile");
       } else {
-        throw new Error(`Erreur lors de la requête : ${response.status}`);
+        throw new Error(`Erreur lors de la requête : ${response.status}.`);
       }
     } catch (error) {
       console.log(error);
