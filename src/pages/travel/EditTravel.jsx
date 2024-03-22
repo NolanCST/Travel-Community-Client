@@ -92,9 +92,33 @@ function EditTravel() {
   const handleDeleteImage = (dayIndex, imageIndex) => {
     setTravelDays((prevDays) => {
       const updatedDays = [...prevDays];
-      updatedDays[dayIndex].images.splice(imageIndex, 1);
+      console.log(updatedDays);
+      updatedDays.forEach((element) => {
+        if (element.id === dayIndex) {
+          element.images.splice(imageIndex, 1);
+        }
+      });
       return updatedDays;
     });
+  };
+
+  const handleDeleteImgDay = async (id) => {
+    try {
+      let options = {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/imgDay/${id}`, options);
+
+      const data = await response.json();
+      console.log(data);
+      alert(data.message);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const renderTravelDays = () => {
@@ -156,24 +180,6 @@ function EditTravel() {
     });
   };
 
-  const handleDeleteImgDay = async (id) => {
-    try {
-      let options = {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      };
-
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/imgDay/${id}`, options);
-
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -207,8 +213,8 @@ function EditTravel() {
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message);
-        //   navigate("/profile");
+        // alert(data.message);
+        window.location.reload();
       } else {
         throw new Error(`Erreur lors de la requête : ${response.status}.`);
       }
