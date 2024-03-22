@@ -180,7 +180,9 @@ function EditTravel() {
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
-    formDataToSend.append("image", formData.image);
+    if (formData.image) {
+      formDataToSend.append("image", formData.image);
+    }
     travelDays.map((element, idx) => {
       formDataToSend.append(`travelDays[${idx}][id]`, element.id);
       formDataToSend.append(`travelDays[${idx}][title_day]`, element.title_day);
@@ -202,7 +204,10 @@ function EditTravel() {
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/travels/${travelId}`, options);
 
+      const data = await response.json();
+
       if (response.ok) {
+        alert(data.message);
         //   navigate("/profile");
       } else {
         throw new Error(`Erreur lors de la requête : ${response.status}`);
