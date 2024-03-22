@@ -52,20 +52,22 @@ function Register() {
         <Navbar />
       </nav>
       <form className="registerForm" method="post">
-        <label htmlFor="lastname">Nom:</label>
-        <input id="lastname" type="text" name="lastname" max="50" value={firstname} onChange={(e) => setFirstname(e.target.value)} required />
-        <label htmlFor="firstname">Prénom:</label>
-        <input id="firstname" type="text" name="firstname" max="50" value={lastname} onChange={(e) => setLastname(e.target.value)} required />
-        <label htmlFor="pseudo">Pseudo:</label>
-        <input id="pseudo" type="text" name="pseudo" max="30" value={pseudo} onChange={(e) => setPseudo(e.target.value)} required />
-        <label htmlFor="country">Pays de résidence:</label>
-        <Country selectedCountry={country} onCountryChange={handleCountryChange} />
-        <label htmlFor="email">Email:</label>
-        <input id="email" type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <label htmlFor="password">Mot de passe:</label>
-        <input id="password" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+]).{12,}" onChange={(e) => setPassword(e.target.value)} required />
-        <p className="textPassword">*Au moins 12 caractères, un chiffre, une lettre majuscule, une minuscule et un caractère parmi !@#$%^&*_=+.</p>
-        <input type="submit" onClick={handleRegister} />
+        <div className="registerElements">
+          <label htmlFor="lastname">Nom:</label>
+          <input id="lastname" type="text" name="lastname" max="50" value={firstname} onChange={(e) => setFirstname(e.target.value)} required />
+          <label htmlFor="firstname">Prénom:</label>
+          <input id="firstname" type="text" name="firstname" max="50" value={lastname} onChange={(e) => setLastname(e.target.value)} required />
+          <label htmlFor="pseudo">Pseudo:</label>
+          <input id="pseudo" type="text" name="pseudo" max="30" value={pseudo} onChange={(e) => setPseudo(e.target.value)} required />
+          <label htmlFor="country">Pays de résidence:</label>
+          <Country selectedCountry={country} onCountryChange={handleCountryChange} />
+          <label htmlFor="email">Email:</label>
+          <input id="email" type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label htmlFor="password">Mot de passe:</label>
+          <input id="password" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+]).{12,}" onChange={(e) => setPassword(e.target.value)} required />
+          <p className="textPassword">*Au moins 12 caractères, un chiffre, une lettre majuscule, une minuscule et un caractère parmi !@#$%^&*_=+.</p>
+          <input className="submitBtn" type="submit" disabled={firstname === "" || lastname === "" || pseudo === "" || country === "" || email === "" || password === ""} onClick={handleRegister} />
+        </div>
       </form>
     </>
   );

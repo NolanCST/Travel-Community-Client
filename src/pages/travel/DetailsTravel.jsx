@@ -4,6 +4,7 @@ import Navbar from "../../components/layouts/NavBar";
 import Footer from "../../components/layouts/Footer";
 import Carousel from "react-bootstrap/Carousel";
 import "./detailsTravel.css";
+import Rates from "../../components/rates/Rates";
 
 function DetailsTravel() {
   const travelId = useLocation().state;
@@ -11,17 +12,25 @@ function DetailsTravel() {
   const [travelDays, setTravelDays] = useState([]);
   const [dayImages, setDayImages] = useState([]);
   const [legislation, setLegislation] = useState([]);
+  const [rates, setRates] = useState([]);
+  const [avgRating, setAvgRating] = useState([]);
+  const [avgStarRating, setAvgStarRating] = useState([]);
+  const [ratingsCount, setRatingsCount] = useState([]);
 
   const getTravel = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/travels/${travelId}`);
 
       const data = await response.json();
-
+      console.log(data);
       setTravel(data.travel);
       setTravelDays(data.travelDays);
       setDayImages(data.dayImages);
       setLegislation(data.travel[0].legislations);
+      setRates(data.rates);
+      setAvgRating(data.avgRating);
+      setAvgStarRating(data.avgStarRating);
+      setRatingsCount(data.ratingsCount);
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +81,7 @@ function DetailsTravel() {
   const renderLegislation = () => {
     return legislation?.map((element, index) => (
       <div className="legislationTravel" key={index}>
-        <p className="legislationTitle">Renseignements important concernant le pays</p>
+        <p className="legislationTitle">Renseignements important concernant le pays : {element.country}</p>
         <p className="legislationDesc">{element.rules}</p>
       </div>
     ));
@@ -87,8 +96,8 @@ function DetailsTravel() {
         {renderTravel()}
         {renderTravelDays()}
         {renderLegislation()}
-        <div className="review"></div>
       </div>
+      <Rates travel={travel} rates={rates} avgStarRating={avgStarRating} />
       <footer>
         <Footer />
       </footer>

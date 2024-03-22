@@ -49,6 +49,7 @@
 }
 
 .detailsDayDesc {
+  width: 90%;
   font-family: gotham-light;
   font-size: 20px;
 }
@@ -81,4 +82,14 @@
 .legislationDesc {
   font-family: gotham-light;
   font-size: 20px;
+}
+
+@media (min-width: 992px) {
+  .detailsDayImgCarousel {
+    width: 50%;
+    height: 500px;
+  }
+  .detailsDayImg {
+    height: 500px;
+  }
 }

@@ -1,8 +1,40 @@
 .footer {
-  height: 20vh;
+  height: 30vh;
   background-color: var(--clr-2);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   color: var(--clr-4);
+  padding: 5% 5% 0;
+}
+
+.footerElements {
+  display: flex;
+  margin-bottom: 3%;
+}
+
+.infos a,
+.items-list a {
+  text-decoration: none;
+  color: var(--clr-4);
+}
+
+.items-list {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 992px) {
+  .footer {
+    padding: 2% 2% 0;
+  }
+
+  .footerElements {
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 3%;
+    font-size: 20px;
+  }
 }

@@ -1,3 +1,37 @@
 .loginForm {
-  padding-top: 70px;
+  padding-top: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginElements {
+  width: 90%;
+  padding: 5%;
+  background-color: var(--clr-2);
+  box-shadow: 2px 2px var(--clr-1);
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  color: var(--clr-4);
+}
+
+.loginElements input {
+  width: 95%;
+  height: 30px;
+  border-radius: 20px;
+}
+
+@media (min-width: 992px) {
+  .loginForm {
+    padding-top: 10%;
+  }
+
+  .loginElements {
+    width: 30%;
+    padding: 2%;
+    gap: 30px;
+  }
 }

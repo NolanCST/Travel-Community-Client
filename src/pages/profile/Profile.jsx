@@ -102,7 +102,7 @@ function Profile() {
         return (
           <>
             <div className="userTravels">
-              <Link className="traCard " key={index} to={`/details/${element.id}`} state={element.id} style={{ textDecoration: "none" }}>
+              <Link className="traCardProfile" key={index} to={`/details/${element.id}`} state={element.id} style={{ textDecoration: "none" }}>
                 <img className="cardImage" src={element.image} alt="image" />
                 <div className="cardInfos">
                   <h3 className="cardTitle">{element.title}</h3>
@@ -192,33 +192,41 @@ function Profile() {
         <h1 className="headerTitle">Profil</h1>
       </div>
       <form className="profileContainer" onSubmit={handleSubmit}>
-        <label className="profileLabel" htmlFor="lastname">
-          Nom :
-          <input className="profileInput" type="text" id="lastname" name="lastname" defaultValue={user.lastname} onChange={handleChange} />
-        </label>
-        <label className="profileLabel" htmlFor="firstname">
-          Prénom :
-          <input className="profileInput" type="text" id="firstname" name="firstname" defaultValue={user.firstname} onChange={handleChange} />
-        </label>
-        <label className="profileLabel" htmlFor="pseudo">
-          Pseudo :
-          <input className="profileInput" type="text" id="pseudo" name="pseudo" defaultValue={user.pseudo} onChange={handleChange} />
-        </label>
-        <label className="profileLabel">
-          Pays :<p className="profileInput">{user.country}</p>
-        </label>
-        <label className="profileLabel" htmlFor="email">
-          Email :
-          <input className="profileInput" type="email" id="email" name="email" defaultValue={user.email} onChange={handleChange} />
-        </label>
-        <label className="profileLabel" htmlFor="password">
-          Modifier le mot de passe :
-          <input className="profileInput" type="password" id="password" name="password" onChange={handleChange} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+]).{12,}" />
-        </label>
-        <label className="profileLabel" htmlFor="confirm_password">
-          Confirmer le mot de passe :
-          <input className="profileInput" type="password" id="confirm_password" name="confirm_password" onChange={handleChange} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+]).{12,}" />
-        </label>
+        <div className="profilElements">
+          <label className="profileLabel" htmlFor="lastname">
+            Nom :
+            <input className="profileInput" type="text" id="lastname" name="lastname" defaultValue={user.lastname} onChange={handleChange} />
+          </label>
+          <label className="profileLabel" htmlFor="firstname">
+            Prénom :
+            <input className="profileInput" type="text" id="firstname" name="firstname" defaultValue={user.firstname} onChange={handleChange} />
+          </label>
+        </div>
+        <div className="profilElements">
+          <label className="profileLabel" htmlFor="pseudo">
+            Pseudo :
+            <input className="profileInput" type="text" id="pseudo" name="pseudo" defaultValue={user.pseudo} onChange={handleChange} />
+          </label>
+          <label className="profileLabel">
+            Pays :<p className="profileInput">{user.country}</p>
+          </label>
+        </div>
+        <div className="profilEmail">
+          <label className="profileLabel profileLabelEmail" htmlFor="email">
+            Email :
+            <input className="profileInput profileInputEmail" type="email" id="email" name="email" defaultValue={user.email} onChange={handleChange} />
+          </label>
+        </div>
+        <div className="profilElements">
+          <label className="profileLabel" htmlFor="password">
+            Modifier le mot de passe :
+            <input className="profileInput" type="password" id="password" name="password" onChange={handleChange} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+]).{12,}" />
+          </label>
+          <label className="profileLabel" htmlFor="confirm_password">
+            Confirmer le mot de passe :
+            <input className="profileInput" type="password" id="confirm_password" name="confirm_password" onChange={handleChange} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+]).{12,}" />
+          </label>
+        </div>
         <div className="profileFormSubmit">
           <input className="submitBtn" type="submit" />
         </div>

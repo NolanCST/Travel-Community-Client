@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../../components/layouts/NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
+import "./editTravel.css";
 
 function EditTravel() {
   const token = localStorage.getItem("@token");
@@ -100,27 +101,43 @@ function EditTravel() {
     return travelDays?.map((element, index) => {
       const imagesForDay = dayImages[index];
       return (
-        <div key={index}>
-          <label htmlFor={`title_day_${element.id}`}>Titre du jour</label>
-          <input type="text" id={`title_day_${element.id}`} name={`title_day_${element.id}`} max="50" defaultValue={element.title_day} onChange={(e) => handleTitleDayChange(element.id, e.target.value)} />
-          <label htmlFor={`description_day_${element.id}`}>Description du jour</label>
-          <textarea name={`description_day_${element.id}`} id={`description_day_${element.id}`} cols="30" rows="10" defaultValue={element.description_day} onChange={(e) => handleDescriptionDayChange(element.id, e.target.value)}></textarea>
-          <label htmlFor={`image_day_${element.id}`}>Images du jour</label>
+        <div key={index} className="travelForm2">
+          <label className="travelFormLabel" htmlFor={`title_day_${element.id}`}>
+            Titre du jour
+          </label>
+          <input className="travelFormInput" type="text" id={`title_day_${element.id}`} name={`title_day_${element.id}`} max="50" defaultValue={element.title_day} onChange={(e) => handleTitleDayChange(element.id, e.target.value)} />
+          <label className="travelFormLabel" htmlFor={`description_day_${element.id}`}>
+            Description du jour
+          </label>
+          <textarea
+            className="travelFormArea"
+            name={`description_day_${element.id}`}
+            id={`description_day_${element.id}`}
+            cols="30"
+            rows="10"
+            defaultValue={element.description_day}
+            onChange={(e) => handleDescriptionDayChange(element.id, e.target.value)}
+          ></textarea>
+          <label className="travelFormLabel" htmlFor={`image_day_${element.id}`}>
+            Images du jour
+          </label>
           <input type="file" id={`image_day_${element.id}`} name={`image_day_${element.id}`} onChange={(e) => handleImageDayChange(element.id, e)} />
-          {imagesForDay?.map((imageElement, imageIndex) => {
-            return (
-              <div key={imageIndex}>
-                <img src={imageElement.image} alt={imageElement.alt} />
-                <button
-                  onClick={() => {
-                    handleDeleteImgDay(imageElement.id);
-                  }}
-                >
-                  Supprimer
-                </button>
-              </div>
-            );
-          })}
+          <div className="imagesForDay">
+            {imagesForDay?.map((imageElement, imageIndex) => {
+              return (
+                <div key={imageIndex} className="imageForDay">
+                  <img className="imageDay" src={imageElement.image} alt={imageElement.alt} />
+                  <button
+                    onClick={() => {
+                      handleDeleteImgDay(imageElement.id);
+                    }}
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              );
+            })}
+          </div>
           {element.images && (
             <div>
               <strong>Images ajoutées :</strong>
@@ -163,7 +180,9 @@ function EditTravel() {
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
-    formDataToSend.append("image", formData.image);
+    if (formData.image) {
+      formDataToSend.append("image", formData.image);
+    }
     travelDays.map((element, idx) => {
       formDataToSend.append(`travelDays[${idx}][id]`, element.id);
       formDataToSend.append(`travelDays[${idx}][title_day]`, element.title_day);
@@ -185,7 +204,10 @@ function EditTravel() {
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/travels/${travelId}`, options);
 
+      const data = await response.json();
+
       if (response.ok) {
+        alert(data.message);
         //   navigate("/profile");
       } else {
         throw new Error(`Erreur lors de la requête : ${response.status}.`);
@@ -200,19 +222,32 @@ function EditTravel() {
       <nav>
         <Navbar />
       </nav>
-      <form encType="multipart/form-data" onSubmit={handleSubmit}>
-        <label htmlFor="title">Titre</label>
-        <input type="text" id="title" name="title" max="50" defaultValue={travel.title} onChange={handleChange} required />
-        <label htmlFor="description">Description</label>
-        <textarea name="description" id="description" cols="30" rows="10" defaultValue={travel.description} onChange={handleChange} required></textarea>
-        <label htmlFor="image">Image</label>
-        <input type="file" id="image" name="image" onChange={handleFileChange} />
-        <p>Nombre de jours: {travel.days}</p>
-        <p>Destination: {travel.legislations?.[0]?.country}</p>
-        <label htmlFor="imageTravel"></label>
-        <img id="imageTravel" src={newImageTravel ? newImageTravel : travel.image} alt={travel.alt} />
+      <div className="createHeader">
+        <h1 className="headerTitle">Modifier un voyage</h1>
+      </div>
+      <form className="travelForm" encType="multipart/form-data" onSubmit={handleSubmit}>
+        <div className="travelForm1">
+          <label className="travelFormLabel" htmlFor="title">
+            Titre
+          </label>
+          <input className="travelFormInput" type="text" id="title" name="title" max="50" defaultValue={travel.title} onChange={handleChange} required />
+          <label className="travelFormLabel" htmlFor="description">
+            Description
+          </label>
+          <textarea className="travelFormArea" name="description" id="description" cols="30" rows="10" defaultValue={travel.description} onChange={handleChange} required></textarea>
+          <label className="travelFormLabel" htmlFor="image">
+            Image
+          </label>
+          <input type="file" id="image" name="image" onChange={handleFileChange} />
+          <p className="travelFormLabel">Nombre de jours: {travel.days}</p>
+          <p className="travelFormLabel">Destination: {travel.legislations?.[0]?.country}</p>
+          <label className="travelFormLabel" htmlFor="imageTravel"></label>
+          <img id="imageTravel" src={newImageTravel ? newImageTravel : travel.image} alt={travel.alt} />
+        </div>
         {renderTravelDays()}
-        <input type="submit" />
+        <div className="travelFormSubmit">
+          <input className="submitBtn" type="submit" />
+        </div>
       </form>
     </>
   );
