@@ -20,18 +20,18 @@ function Rates(props) {
       formData.append("rate", rate);
       formData.append("travel_id", travel[0].id);
 
-      let options = {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-        body: formData,
-      };
-
       try {
+        let options = {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+          body: formData,
+        };
+
         const response = await fetch(`${import.meta.env.VITE_API_URL}/rates`, options);
         const data = await response.json();
-
+        console.log(data);
         if (data.success) {
           alert("Votre avis a bien été pris en compte");
         } else {
