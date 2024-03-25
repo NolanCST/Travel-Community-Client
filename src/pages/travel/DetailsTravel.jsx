@@ -22,7 +22,6 @@ function DetailsTravel() {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/travels/${travelId}`);
 
       const data = await response.json();
-      console.log(data);
       setTravel(data.travel);
       setTravelDays(data.travelDays);
       setDayImages(data.dayImages);

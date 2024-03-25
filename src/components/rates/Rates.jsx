@@ -11,41 +11,6 @@ function Rates(props) {
   const [editMode, setEditMode] = useState(-1);
   const token = localStorage.getItem("@token");
 
-  const createRate = async (e) => {
-    const travel = props.travel;
-    e.preventDefault();
-    if (token) {
-      let formData = new FormData();
-      formData.append("review", review);
-      formData.append("rate", rate);
-      formData.append("travel_id", travel[0].id);
-
-      try {
-        let options = {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-          body: formData,
-        };
-
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/rates`, options);
-        const data = await response.json();
-        console.log(data);
-        if (data.success) {
-          alert("Votre avis a bien été pris en compte");
-        } else {
-          alert(data.message);
-        }
-        renderRates();
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    } else {
-      alert("Vous devez être connecté en tant que membre pour mettre un commentaire");
-    }
-  };
-
   const renderRates = () => {
     return props.rates?.map((element, index) => {
       const rateId = element.id;
@@ -93,6 +58,41 @@ function Rates(props) {
     });
   };
 
+  const createRate = async (e) => {
+    const travel = props.travel;
+    e.preventDefault();
+    if (token) {
+      let formData = new FormData();
+      formData.append("review", review);
+      formData.append("rate", rate);
+      formData.append("travel_id", travel[0].id);
+
+      try {
+        let options = {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+          body: formData,
+        };
+
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/rates`, options);
+        const data = await response.json();
+        console.log(data);
+        if (data) {
+          alert(data.message);
+          window.location.reload();
+        } else {
+          alert("Erreur dans la publication de votre avis");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    } else {
+      alert("Vous devez être connecté en tant que membre pour mettre un commentaire");
+    }
+  };
+
   const enterEditMode = (rateId, oldRate, oldReview) => {
     if (editMode !== -1) {
       setEditMode(-1);
@@ -122,11 +122,11 @@ function Rates(props) {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/rates/${rateId}`, options);
       const data = await response.json();
       if (data.success) {
-        console.log("Votre avis a bien été modifié");
+        alert("Votre avis a bien été modifié");
+        window.location.reload();
       }
-      window.location.reload();
     } catch (error) {
-      console.error(error);
+      console.error("Erreur dans la modification de votre avis", error);
     }
     setEditMode(-1);
   };
@@ -141,8 +141,11 @@ function Rates(props) {
       };
       const response = await fetch(`${import.meta.env.VITE_API_URL}/rates/${rateId}`, options);
       const data = await response.json();
-      alert(data.message);
-      renderRates();
+      console.log(data);
+      if (data) {
+        alert(data.message);
+        window.location.reload();
+      }
     } catch (error) {
       console.error("Erreur dans la suppression de votre avis", error);
     }
